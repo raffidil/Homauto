@@ -1,0 +1,3 @@
+rootProject.name = 'Homauto'
+
+include ':app'

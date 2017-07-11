@@ -9,12 +9,12 @@ import React from 'react';
    Switch
  } from 'react-native';
  // import { Icon } from 'react-native-material-design';
- import {Avatar, Tabs, Tab, Icon} from 'react-native-elements';
+ import {Avatar, Icon} from 'react-native-elements';
  import Layout from './components/Layout';
  import DrawerConfig from './components/DrawerConfig';
- import page1 from './screens/page1/page1';
- import page2 from './screens/page2/page2';
- import page3 from './screens/page3/page3';
+ import Devices from './screens/Devices/Devices';
+ import Setting from './screens/Setting/Setting';
+ import About from './screens/About/About';
  import {
   MKIconToggle,
   MKSwitch,
@@ -43,7 +43,7 @@ import React from 'react';
 
    render() {
      return (
-       <Layout navigation={this.props.navigation}>
+       <Layout navigation={this.props.navigation} title='Home'>
          <Text>Home</Text>
            <MKSwitch checked={true}  />
              <Switch  />
@@ -70,14 +70,14 @@ const routesConfig={
  Home: {
    screen: Home,
  },
- Page1: {
-   screen: page1,
+ Devices: {
+   screen: Devices,
  },
- Page2: {
-   screen: page2,
+ Setting: {
+   screen: Setting,
  },
- Page3: {
-   screen: page3,
+ About: {
+   screen: About,
  },
 };
 

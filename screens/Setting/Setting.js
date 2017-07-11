@@ -2,26 +2,25 @@ import React from 'react';
 import {
     Text,
 } from 'react-native';
-import { Icon } from 'react-native-material-design';
 import Layout from '../../components/Layout';
+import {Icon} from 'react-native-elements';
 
-export default class ChatScreen extends React.Component {
+export default class SettingPage extends React.Component {
   props:{
       navigation: any
   }
-  
 
   static navigationOptions = {
-    drawerLabel: 'page 1',
+    drawerLabel: 'Setting',
     drawerIcon: () => (
-      <Icon name="share" style={{fontSize: 20}}/>
+      <Icon name="settings"/>
     ),
   };
 
   render() {
     return (
-      <Layout navigation={this.props.navigation}>
-        <Text>page1</Text>
+      <Layout navigation={this.props.navigation} title="Setting">
+        <Text>Setting</Text>
       </Layout>
     );
   }

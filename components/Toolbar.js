@@ -15,18 +15,12 @@ import React from 'react';
    render() {
      return (
        <View >
-         <StatusBar backgroundColor="lightblue" barStyle="light-content" />
+         <StatusBar backgroundColor="#00838f" barStyle="light-content" />
          <MaterialToolbar
                title={navigator && navigator.currentRoute ? navigator.currentRoute.title : this.props.title}
                icon={navigator && navigator.isChild ? 'keyboard-backspace' : 'menu'}
                onIconPress={() => this.props.navigation.navigate('DrawerOpen')}
-               actions={[{
-                   icon: 'more-vert',
-                   
-               }]}
-               rightIconStyle={{
-                   margin: 10
-               }}
+               style={{backgroundColor: '#0097a7'}}
                />
        </View>
      );

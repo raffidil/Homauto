@@ -1,12 +1,15 @@
 import React from 'react';
 import {
-  View,
   Text
 } from 'react-native';
-import Toolbar from '../../components/Toolbar';
+import Layout from '../../components/Layout';
 import { Icon } from 'react-native-material-design';
 
 export default class MyNotificationsScreen extends React.Component {
+  props:{
+      navigation: any
+  }
+
   static navigationOptions = {
     drawerLabel: 'page 3',
     drawerIcon: () => (
@@ -16,10 +19,9 @@ export default class MyNotificationsScreen extends React.Component {
 
   render() {
     return (
-      <View>
-        <Toolbar title="Page 3"/>
-        <Text>text for page 3</Text>
-      </View>
+      <Layout navigation={this.props.navigation}>
+        <Text>page 3</Text>
+      </Layout>
     );
   }
 }

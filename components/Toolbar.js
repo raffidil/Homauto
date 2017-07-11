@@ -4,7 +4,7 @@ import React from 'react';
    StatusBar
  } from 'react-native';
  import { Toolbar as MaterialToolbar} from 'react-native-material-design';
- 
+
  export default class Toolbar extends React.Component {
 
    props:{
@@ -21,7 +21,8 @@ import React from 'react';
                icon={navigator && navigator.isChild ? 'keyboard-backspace' : 'menu'}
                onIconPress={() => this.props.navigation.navigate('DrawerOpen')}
                actions={[{
-                   icon: 'menu',
+                   icon: 'more-vert',
+                   
                }]}
                rightIconStyle={{
                    margin: 10

@@ -10,9 +10,6 @@ export default class ChatScreen extends React.Component {
       navigation: any
   }
   
-  static navigationOptions = {
-    title: 'page1',
-  };
 
   static navigationOptions = {
     drawerLabel: 'page 1',

@@ -15,7 +15,7 @@ export default class Layout extends React.Component {
     return (
       <View>
         <Toolbar title={this.props.title} navigation={this.props.navigation}/>
-          <View style={{marginTop: 60, marginLeft: 10}}>
+          <View style={{marginTop: 60}}>
             {this.props.children}
           </View>
       </View>

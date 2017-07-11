@@ -25,13 +25,14 @@ const CustomDrawerContentComponent = (props) => (
       <Avatar
         large
         rounded
-        icon={{name: 'home', color: 'lightblue'}}
+        icon={{name: 'home', color: '#80deea', size: 60}}
         overlayContainerStyle={{backgroundColor: 'white'}}
         activeOpacity={0.7}
         containerStyle={{position: 'absolute', bottom: 90, left:20}}
 />
      </View>
-    <DrawerItems {...props} />
+     <View><DrawerItems {...props}/></View>
+
   </View>
 );
 

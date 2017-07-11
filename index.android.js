@@ -35,8 +35,8 @@ import React from 'react';
      drawerLabel: 'Home',
      drawerIcon: () => (
        <Icon
-  name='home'
-  color='#00aced' />
+         name='home'
+         />
 
      ),
    };
@@ -82,7 +82,15 @@ const routesConfig={
 };
 
 const drawerNavigatorConfig={
-  contentComponent: DrawerConfig
+  contentComponent: DrawerConfig,
+  contentOptions: {
+  activeTintColor: '#212121',
+  inactiveTintColor: '#424242',
+  activeBackgroundColor: '#f5f5f5',
+  style: {
+    marginVertical: 0,
+  },
+}
 }
 
  const BasicApp = DrawerNavigator(routesConfig,drawerNavigatorConfig);

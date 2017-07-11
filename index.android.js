@@ -1,34 +1,38 @@
 import React from 'react';
  import {
-   DrawerNavigator,
+  DrawerNavigator,
  } from 'react-navigation';
  import {
    AppRegistry,
    View,
    StyleSheet,
-   Button
+   Button,
+   StatusBar,
+   Text
  } from 'react-native';
- import page1 from './screens/page1';
- import page2 from './screens/page2';
+// import { Toolbar } from './components';
+ import { Icon } from 'react-native-material-design';
+ import Toolbar from './components/Toolbar';
+ import page1 from './screens/page1/page1';
+ import page2 from './screens/page2/page2';
  import page3 from './screens/page3/page3';
+
 
  class MyHomeScreen extends React.Component {
    static navigationOptions = {
      drawerLabel: 'Home',
-    //  drawerIcon: ({ tintColor }) => (
-    //    <Image
-    //      source={require('./chats-icon.png')}
-    //      style={[styles.icon, {tintColor: tintColor}]}
-    //    />
-    //  ),
+     drawerIcon: () => (
+       <Icon name="home" style={{fontSize: 20}}/>
+     ),
    };
 
    render() {
      return (
-       <Button
-         onPress={() => this.props.navigation.navigate('Notifications')}
-         title="Go to page 3"
-       />
+       <View>
+         {/*onIconPress={() => navigator && navigator.isChild ? navigator.back() : onIconPress()}*/}
+         <Toolbar title="Home"/>
+
+       </View>
      );
    }
  }

@@ -1,27 +1,25 @@
 import React from 'react';
 import {
-  AppRegistry,
   View,
-  Button,
+  Text
 } from 'react-native';
+import Toolbar from '../../components/Toolbar';
+import { Icon } from 'react-native-material-design';
 
 export default class MyNotificationsScreen extends React.Component {
   static navigationOptions = {
-    drawerLabel: 'Page3',
-    // drawerIcon: ({ tintColor }) => (
-    //   <Image
-    //     source={require('./notif-icon.png')}
-    //     style={[styles.icon, {tintColor: tintColor}]}
-    //   />
-    // ),
+    drawerLabel: 'page 3',
+    drawerIcon: () => (
+      <Icon name="share" style={{fontSize: 20}}/>
+    ),
   };
 
   render() {
     return (
-      <Button
-        onPress={() => this.props.navigation.goBack()}
-        title="Go back home"
-      />
+      <View>
+        <Toolbar title="Page 3"/>
+        <Text>text for page 3</Text>
+      </View>
     );
   }
 }

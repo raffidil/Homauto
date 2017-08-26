@@ -1,35 +1,36 @@
-import React from 'react';
+ import React,  { Component }  from 'react';
  import {
   DrawerNavigator,
  } from 'react-navigation';
  import {
    AppRegistry,
-   StyleSheet,
-   Text,
-   Switch
+   TextInput,
  } from 'react-native';
+ import { Container, Header, Content, List, ListItem, Icon, Text, Right, Left, Body, Form, Item, Input, Label ,Button } from 'native-base';
  // import { Icon } from 'react-native-material-design';
- import {Avatar, Icon} from 'react-native-elements';
+ //import {Icon} from 'react-native-elements';
  import Layout from './components/Layout';
  import DrawerConfig from './components/DrawerConfig';
  import Devices from './screens/Devices/Devices';
  import Setting from './screens/Setting/Setting';
  import About from './screens/About/About';
- import {
-  MKIconToggle,
-  MKSwitch,
-  MKRadioButton,
-  MKCheckbox,
-  MKColor,
-  getTheme,
-  setTheme,
-} from 'react-native-material-kit';
 
+const address = "http://192.168.1.234"
 
  class Home extends React.Component {
+   constructor(props) {
+    super(props);
+    this.state = { text: '' };
+  }
+
    props:{
        navigation: any
    }
+
+   changeColor = (color) => {
+  fetch(address + color)
+    }
+
 
    static navigationOptions = {
      drawerLabel: 'Home',
@@ -41,30 +42,41 @@ import React from 'react';
      ),
    };
 
+
    render() {
      return (
        <Layout navigation={this.props.navigation} title='Home'>
-         <Text>Home</Text>
-           <MKSwitch checked={true}  />
-             <Switch  />
-               <Avatar
-    large
-    rounded
-    title="MT"
-    activeOpacity={0.7}
-  />
-
+         <List>
+           <ListItem itemHeader first>
+             <Text>Light List</Text>
+           </ListItem>
+           <ListItem icon>
+              <Left>
+                <Icon name="flame" />
+              </Left>
+              <Body>
+                <Text>Flame</Text>
+              </Body>
+              <Right>
+                <Button iconLeft transparent primary onClick={() => fetch(address + "/stop")}>
+                  <Text style={{color: 'gray'}}>OFF</Text>
+                </Button>
+                <TextInput
+                  maxLength={6}
+                  placeholder={'HEX'}
+                  onSubmitEditing={(text) => this.changeColor({text})}
+                  style={{height: 40, width: 65, borderWidth: 0}}
+                  onChangeText={(text) => this.setState({text})}
+                  value={this.state.text}
+             />
+              </Right>
+            </ListItem>
+         </List>
        </Layout>
      );
    }
  }
 
-const styles = StyleSheet.create({
-  icon: {
-    width: 24,
-    height: 24,
-  },
-});
 
 const routesConfig={
  Home: {

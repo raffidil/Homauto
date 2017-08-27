@@ -6,16 +6,17 @@
    AppRegistry,
    TextInput,
  } from 'react-native';
- import { Container, Header, Content, List, ListItem, Icon, Text, Right, Left, Body, Form, Item, Input, Label ,Button } from 'native-base';
+ import { Container, Header, Content, List, ListItem, Icon, Text, Radio, Right, Left, Body, Card, CardItem, Form, Item, Input, Label ,Button } from 'native-base';
  // import { Icon } from 'react-native-material-design';
  //import {Icon} from 'react-native-elements';
+ //import Icon from 'react-native-vector-icons/FontAwesome'
  import Layout from './components/Layout';
  import DrawerConfig from './components/DrawerConfig';
  import Devices from './screens/Devices/Devices';
  import Setting from './screens/Setting/Setting';
  import About from './screens/About/About';
 
-const address = "http://192.168.1.234"
+const address = "http://192.168.1.234/"
 
  class Home extends React.Component {
    constructor(props) {
@@ -52,13 +53,14 @@ const address = "http://192.168.1.234"
            </ListItem>
            <ListItem icon>
               <Left>
-                <Icon name="flame" />
+                <Icon name="lightbulb-o" size={25} color="black" />
               </Left>
               <Body>
-                <Text>Flame</Text>
+                <Text>Light</Text>
+                <Text note>Bedroom</Text>
               </Body>
               <Right>
-                <Button iconLeft transparent primary onClick={() => fetch(address + "/stop")}>
+                <Button transparent onClick={() => fetch("http://192.168.1.234/stop")}>
                   <Text style={{color: 'gray'}}>OFF</Text>
                 </Button>
                 <TextInput
@@ -71,7 +73,41 @@ const address = "http://192.168.1.234"
              />
               </Right>
             </ListItem>
+            <ListItem>
+              <Card>
+            <CardItem>
+              <Left>
+                <Icon  name="bulb" />
+                <Body>
+                  <Text>Light</Text>
+                  <Text note>Bedroom</Text>
+                </Body>
+              </Left>
+              <Right>
+                <Button transparent>
+                  <Icon style={{color: 'gray', fontSize: 25}}name="power" />
+                </Button>
+                </Right>
+            </CardItem>
+            <CardItem>
+            </CardItem>
+          </Card>
+            </ListItem>
+            <ListItem>
+              <Card>
+            <CardItem>
+              <Body>
+                <Text>
+                   Your text here
+                </Text>
+              </Body>
+            </CardItem>
+          </Card>
+            </ListItem>
          </List>
+         <Button onClick={() => fetch("http://192.168.1.234/hex=ffff00")}>
+           <Text>OFF</Text>
+         </Button>
        </Layout>
      );
    }

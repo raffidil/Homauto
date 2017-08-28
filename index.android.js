@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { DrawerNavigator } from 'react-navigation';
-import { AppRegistry, TextInput } from 'react-native';
+import { AppRegistry, TextInput, ScrollView } from 'react-native';
 import {
   List,
   ListItem,
@@ -76,82 +76,84 @@ class Home extends React.Component {
 
     return (
       <Layout navigation={this.props.navigation} title="Home">
-        <List>
-          <ListItem itemHeader first>
-            <Text>Light List</Text>
-          </ListItem>
-          <ListItem icon>
-            <Left>
-              <Icon name="bulb" size={25} color="black" />
-            </Left>
-            <Body>
-              <Text>Light</Text>
-              <Text note>Bedroom</Text>
-            </Body>
-            <Right>
-              <Button
-                transparent
-                onClick={() => fetch('http://192.168.1.234/stop')}
-              >
-                <Text style={{ color: 'gray' }}>OFF</Text>
-              </Button>
-              <TextInput
-                maxLength={6}
-                placeholder={'HEX'}
-                onSubmitEditing={text => this.changeColor({ text })}
-                style={{ height: 40, width: 65, borderWidth: 0 }}
-                onChangeText={text => this.setState({ text })}
-                value={this.state.text}
-              />
-            </Right>
-          </ListItem>
-          <ListItem>
-            <Card>
-              <CardItem>
-                <Left>
-                  <Icon name="bulb" />
-                  <Body>
-                    <Text>Light</Text>
-                    <Text note>Bedroom</Text>
-                  </Body>
-                </Left>
-                <Right>
-                  <Button transparent>
-                    <Icon
-                      style={{ color: 'gray', fontSize: 25 }}
-                      name="power"
-                    />
-                  </Button>
-                </Right>
-              </CardItem>
-              <CardItem>
-                {colors.map(color => (
-                  <Button
-                    key={color.backgroundColor}
-                    onPress={() => this.changeColor(color.lightColor)}
-                    style={{
-                      backgroundColor: color.backgroundColor,
-                      marginLeft: 8,
-                      height: 35,
-                      width: 40,
-                      flex: 6,
-                    }}
-                  />
-                ))}
-              </CardItem>
-              <CardItem>
+        <ScrollView>
+          <List>
+            <ListItem itemHeader first>
+              <Text>Light List</Text>
+            </ListItem>
+            <ListItem icon>
+              <Left>
+                <Icon name="bulb" size={25} color="black" />
+              </Left>
+              <Body>
+                <Text>Light</Text>
+                <Text note>Bedroom</Text>
+              </Body>
+              <Right>
+                <Button
+                  transparent
+                  onClick={() => fetch('http://192.168.1.234/stop')}
+                >
+                  <Text style={{ color: 'gray' }}>OFF</Text>
+                </Button>
                 <TextInput
                   maxLength={6}
                   placeholder={'HEX'}
-                  onSubmitEditing={text => this.changeColor(text)}
-                  style={{ width: 70, borderWidth: 0, fontSize: 20 }}
+                  onSubmitEditing={text => this.changeColor({ text })}
+                  style={{ height: 40, width: 65, borderWidth: 0 }}
                   onChangeText={text => this.setState({ text })}
                   value={this.state.text}
                 />
-              </CardItem>
-            </Card>
-          </ListItem>
-        </List>
+              </Right>
+            </ListItem>
+            <ListItem>
+              <Card>
+                <CardItem>
+                  <Left>
+                    <Icon name="bulb" />
+                    <Body>
+                      <Text>Light</Text>
+                      <Text note>Bedroom</Text>
+                    </Body>
+                  </Left>
+                  <Right>
+                    <Button transparent>
+                      <Icon
+                        style={{ color: 'gray', fontSize: 25 }}
+                        name="power"
+                      />
+                    </Button>
+                  </Right>
+                </CardItem>
+                <CardItem>
+                  {colors.map(color => (
+                    <Button
+                      key={color.backgroundColor}
+                      onPress={() => this.changeColor(color.lightColor)}
+                      style={{
+                        backgroundColor: color.backgroundColor,
+                        marginLeft: 8,
+                        height: 35,
+                        width: 40,
+                        flex: 6,
+                      }}
+                    />
+                  ))}
+                </CardItem>
+                <CardItem>
+                  <TextInput
+                    maxLength={6}
+                    placeholder={'HEX'}
+                    onSubmitEditing={text => this.changeColor(text)}
+                    style={{ width: 70, borderWidth: 0, fontSize: 20 }}
+                    onChangeText={text => this.setState({ text })}
+                    value={this.state.text}
+                  />
+                </CardItem>
+              </Card>
+            </ListItem>
+          </List>
+        </ScrollView>
       </Layout>
     );
   }

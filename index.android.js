@@ -53,7 +53,7 @@ const address = "http://192.168.1.234/"
            </ListItem>
            <ListItem icon>
               <Left>
-                <Icon name="lightbulb-o" size={25} color="black" />
+                <Icon name="bulb" size={25} color="black" />
               </Left>
               <Body>
                 <Text>Light</Text>
@@ -90,24 +90,28 @@ const address = "http://192.168.1.234/"
                 </Right>
             </CardItem>
             <CardItem>
+              <Button onClick={() => fetch("http://192.168.1.234/stop")} style={{backgroundColor: '#6A1B9A',height:35,width:40,flex:6}}/>
+              <Button style={{backgroundColor: '#0D47A1',height:35,width:40, marginLeft: 8,flex:6}}/>
+              <Button style={{backgroundColor: '#2196F3',height:35,width:40, marginLeft: 8,flex:6}}/>
+              <Button style={{backgroundColor: '#558B2F',height:35,width:40, marginLeft: 8,flex:6}}/>
+              <Button style={{backgroundColor: '#FFEB3B',height:35,width:40, marginLeft: 8,flex:6}}/>
+              <Button style={{backgroundColor: '#FF6F00',height:35,width:40, marginLeft: 8,flex:6}}/>
+              <Button style={{backgroundColor: '#F44336',height:35,width:40, marginLeft: 8,flex:6}}/>
             </CardItem>
-          </Card>
-            </ListItem>
-            <ListItem>
-              <Card>
             <CardItem>
-              <Body>
-                <Text>
-                   Your text here
-                </Text>
-              </Body>
+              <TextInput
+                maxLength={6}
+                placeholder={'HEX'}
+                onSubmitEditing={(text) => this.changeColor({text})}
+                style={{width: 70, borderWidth: 0, fontSize: 20}}
+                onChangeText={(text) => this.setState({text})}
+                value={this.state.text}
+           />
             </CardItem>
           </Card>
             </ListItem>
          </List>
-         <Button onClick={() => fetch("http://192.168.1.234/hex=ffff00")}>
-           <Text>OFF</Text>
-         </Button>
+         <Button/>
        </Layout>
      );
    }

@@ -13,6 +13,7 @@ import {
   CardItem,
   Button,
 } from 'native-base';
+import { ColorPicker } from 'react-native-color-picker';
 import Layout from './components/Layout';
 import DrawerConfig from './components/DrawerConfig';
 import Devices from './screens/Devices/Devices';
@@ -37,6 +38,12 @@ class Home extends React.Component {
     fetch(url);
   };
 
+  changeEffect = effect => {
+    const url = `${address}${effect}`;
+    console.log(url);
+    fetch(url);
+  };
+
   static navigationOptions = {
     drawerLabel: 'Home',
     drawerIcon: () => <Icon name="home" />,
@@ -49,28 +56,43 @@ class Home extends React.Component {
   render() {
     const colors = [
       {
-        backgroundColor: '#FF6F00',
-        lightColor: 'FFFFFF',
+        backgroundColor: '#BA68C8',
+        lightColor: 'DD00FF',
       },
       {
-        backgroundColor: '#558B2F',
-        lightColor: 'FF0000',
+        backgroundColor: '#5C6BC0',
+        lightColor: '0400FF',
       },
       {
-        backgroundColor: '#2196F3',
-        lightColor: '00FF00',
+        backgroundColor: '#03A9F4',
+        lightColor: '00D7FF',
       },
       {
-        backgroundColor: '#0D47A1',
-        lightColor: '0000FF',
+        backgroundColor: '#64DD17',
+        lightColor: '00FF10',
       },
       {
-        backgroundColor: '#6A1B9A',
+        backgroundColor: '#FFFF00',
         lightColor: 'FFFF00',
       },
       {
+        backgroundColor: '#FFA000',
+        lightColor: 'FF7200',
+      },
+      {
         backgroundColor: '#F44336',
-        lightColor: '00FFFF',
+        lightColor: 'FF0000',
+      },
+    ];
+
+    const effects = [
+      {
+        functionName: 'rainbow',
+        functionTitle: 'Rainbow'
+      },
+      {
+        functionName: 'allrainbow',
+        functionTitle: 'All Rainbow'
       },
     ];
 
@@ -78,34 +100,6 @@ class Home extends React.Component {
       <Layout navigation={this.props.navigation} title="Home">
         <ScrollView>
           <List>
-            <ListItem itemHeader first>
-              <Text>Light List</Text>
-            </ListItem>
-            <ListItem icon>
-              <Left>
-                <Icon name="bulb" size={25} color="black" />
-              </Left>
-              <Body>
-                <Text>Light</Text>
-                <Text note>Bedroom</Text>
-              </Body>
-              <Right>
-                <Button
-                  transparent
-                  onClick={() => fetch('http://192.168.1.234/stop')}
-                >
-                  <Text style={{ color: 'gray' }}>OFF</Text>
-                </Button>
-                <TextInput
-                  maxLength={6}
-                  placeholder={'HEX'}
-                  onSubmitEditing={text => this.changeColor({ text })}
-                  style={{ height: 40, width: 65, borderWidth: 0 }}
-                  onChangeText={text => this.setState({ text })}
-                  value={this.state.text}
-                />
-              </Right>
-            </ListItem>
             <ListItem>
               <Card>
                 <CardItem>
@@ -117,7 +111,7 @@ class Home extends React.Component {
                     </Body>
                   </Left>
                   <Right>
-                    <Button transparent>
+                    <Button transparent onPress={() => this.stop()}>
                       <Icon
                         style={{ color: 'gray', fontSize: 25 }}
                         name="power"
@@ -141,14 +135,28 @@ class Home extends React.Component {
                   ))}
                 </CardItem>
                 <CardItem>
-                  <TextInput
-                    maxLength={6}
-                    placeholder={'HEX'}
-                    onSubmitEditing={text => this.changeColor(text)}
-                    style={{ width: 70, borderWidth: 0, fontSize: 20 }}
-                    onChangeText={text => this.setState({ text })}
-                    value={this.state.text}
+                  {effects.map(effect => (
+                    <Button
+                      key={effect.functionName}
+                      onPress={() => this.changeEffect(effect.functionName)}
+                      style={{
+                        backgroundColor: '#90A4AE',
+                        marginLeft: 8,
+                        height: 35,
+                        width: 40,
+                        flex: 6,
+                      }}
+                    ><Text style={{alignItems: 'center' }}>{effect.functionTitle}</Text></Button>
+                  ))}
+                </CardItem>
+                <CardItem>
+                  <Body style={{alignItems: 'center' }}>
+                  <ColorPicker
+                    onColorSelected={color =>
+                      fetch('http://192.168.1.234/hex=' + color.substr(1, 6))}
+                    style={{ width: 200 ,height: 200 }}
                   />
+                </Body>
                 </CardItem>
               </Card>
             </ListItem>

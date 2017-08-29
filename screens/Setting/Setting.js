@@ -16,11 +16,13 @@ export default class SettingPage extends React.Component {
 
   render() {
     return (
+      <Layout navigation={this.props.navigation} title="Setting">
       <ColorPicker
         onColorSelected={color =>
           fetch('http://192.168.1.234/hex=' + color.substr(1, 6))}
-        style={{ flex: 1 }}
+        style={{ width: 200,height: 200 }}
       />
+  </Layout>
     );
   }
 }

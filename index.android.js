@@ -4,7 +4,6 @@ import { AppRegistry, TextInput, ScrollView } from 'react-native';
 import {
   List,
   ListItem,
-  Icon,
   Text,
   Right,
   Left,
@@ -12,6 +11,7 @@ import {
   Card,
   CardItem,
   Button,
+  Icon,
 } from 'native-base';
 import { ColorPicker } from 'react-native-color-picker';
 import Layout from './components/Layout';
@@ -88,11 +88,23 @@ class Home extends React.Component {
     const effects = [
       {
         functionName: 'rainbow',
-        functionTitle: 'Rainbow'
+        functionTitle: 'Rainbow',
+        functionIcon: 'ios-color-filter'
       },
       {
         functionName: 'allrainbow',
-        functionTitle: 'All Rainbow'
+        functionTitle: 'All Rainbow',
+        functionIcon: 'ios-color-filter-outline'
+      },
+      {
+        functionName: 'jackcandle',
+        functionTitle: 'Jack Candle',
+        functionIcon: 'star'
+      },
+      {
+        functionName: 'fire',
+        functionTitle: 'Fire Flame',
+        functionIcon: 'flame'
       },
     ];
 
@@ -146,7 +158,9 @@ class Home extends React.Component {
                         width: 40,
                         flex: 6,
                       }}
-                    ><Text style={{alignItems: 'center' }}>{effect.functionTitle}</Text></Button>
+                    >
+                    <Icon name={effect.functionIcon}/>
+                  </Button>
                   ))}
                 </CardItem>
                 <CardItem>

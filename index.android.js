@@ -1,6 +1,6 @@
 import React from 'react';
 import { DrawerNavigator } from 'react-navigation';
-import { AppRegistry, ScrollView, TextInput } from 'react-native';
+import { AppRegistry, ScrollView, TextInput, View, AsyncStorage } from 'react-native';
 import Modal from 'react-native-modalbox';
 import {
   List,
@@ -40,6 +40,15 @@ class Home extends React.Component {
     };
   }
 
+  componentWillMount(){
+
+AsyncStorage.getItem('@MySuperStore:devices').then(jsonString => {
+  const devices = JSON.parse(jsonString);
+  this.setState({devices});
+}).catch(console.warn)
+
+  }
+
   props: {
     navigation: any,
   };
@@ -71,6 +80,8 @@ class Home extends React.Component {
       ip,
     });
     this.setState({ devices });
+    AsyncStorage.setItem('@MySuperStore:devices', JSON.stringify(devices)).catch(console.warn)
+
   };
 
   render() {
@@ -137,25 +148,37 @@ class Home extends React.Component {
         <Modal
           style={{
             justifyContent: 'center',
-            alignItems: 'center',
-            height: 500,
-            width: 400,
+            height: 200,
+            width: 300,
           }}
           position={'center'}
           ref={r => (this.modal = r)}
         >
+        <Text style={{ marginLeft: 20}}>Add a new device</Text>
           <TextInput
             onChangeText={ip => this.setState({ ip })}
             value={this.state.ip}
+            style={{width: 250,marginLeft: 20}}
+            clearButtonMode={'always'}
+            placeholder={'Device code'}
           />
           <TextInput
             onChangeText={name => this.setState({ name })}
+            style={{width: 250,marginLeft: 20}}
+            clearButtonMode={'always'}
+            placeholder={'Name'}
             value={this.state.name}
+            returnKeyType={'go'}
           />
-
-          <Button transparent onPress={this.addDevice}>
-            <Text>Add</Text>
+        <View style={{flexDirection:'row', marginBottom: -10, marginTop: 10,alignSelf: 'flex-end',marginRight: 10}}>
+          <Button transparent onPress={this.addDevice} >
+              <Text style={{color: 'teal',fontWeight: 'bold'}}>Cancel</Text>
+            </Button>
+        <Button transparent onPress={this.addDevice} >
+            <Text style={{color: 'teal',fontWeight: 'bold'}}>Add</Text>
           </Button>
+        </View>
+
         </Modal>
         <ScrollView>
           <List>
@@ -166,10 +189,10 @@ class Home extends React.Component {
                     <Left>
                       <Icon name="bulb" />
                       <Body>
-                        <Text>Light</Text>
-                        <Text note>
+                        <Text>
                           {device.name}
                         </Text>
+                        <Text note>Light</Text>
                       </Body>
                     </Left>
                     <Right>

@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { DrawerNavigator } from 'react-navigation';
-import { AppRegistry, TextInput, ScrollView } from 'react-native';
+import { AppRegistry, ScrollView, TextInput } from 'react-native';
+import Modal from 'react-native-modalbox';
 import {
   List,
   ListItem,
@@ -13,34 +14,43 @@ import {
   Button,
   Icon,
 } from 'native-base';
-import { ColorPicker } from 'react-native-color-picker';
+// import { ColorPicker } from 'react-native-color-picker';
 import Layout from './components/Layout';
 import DrawerConfig from './components/DrawerConfig';
 import Devices from './screens/Devices/Devices';
 import Setting from './screens/Setting/Setting';
 import About from './screens/About/About';
 
-const address = 'http://192.168.1.234/';
-
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { text: '' };
+    this.state = {
+      ip: '',
+      name: '',
+      devices: [
+        {
+          name: 'Bedroom',
+          ip: '192.168.1.234',
+        },
+        {
+          name: 'Bedroom',
+          ip: '192.168.1.235',
+        },
+      ],
+    };
   }
 
   props: {
     navigation: any,
   };
 
-  changeColor = color => {
-    const url = `${address}hex=${color}`;
-    console.log(url);
+  changeColor = (color, ip) => {
+    const url = `http://${ip}/hex=${color}`;
     fetch(url);
   };
 
-  changeEffect = effect => {
-    const url = `${address}${effect}`;
-    console.log(url);
+  changeEffect = (effect, ip) => {
+    const url = `http://${ip}/${effect}`;
     fetch(url);
   };
 
@@ -49,8 +59,18 @@ class Home extends React.Component {
     drawerIcon: () => <Icon name="home" />,
   };
 
-  stop = () => {
-    fetch(`${address}/stop`);
+  stop = ip => {
+    fetch(`http://${ip}/stop`);
+  };
+
+  addDevice = () => {
+    this.modal.close();
+    const { devices, ip, name } = this.state;
+    devices.push({
+      name,
+      ip,
+    });
+    this.setState({ devices });
   };
 
   render() {
@@ -89,91 +109,129 @@ class Home extends React.Component {
       {
         functionName: 'rainbow',
         functionTitle: 'Rainbow',
-        functionIcon: 'ios-color-filter'
+        functionIcon: 'ios-color-filter',
       },
       {
         functionName: 'allrainbow',
         functionTitle: 'All Rainbow',
-        functionIcon: 'ios-color-filter-outline'
+        functionIcon: 'ios-color-filter-outline',
       },
       {
         functionName: 'jackcandle',
         functionTitle: 'Jack Candle',
-        functionIcon: 'star'
+        functionIcon: 'star',
       },
       {
         functionName: 'fire',
         functionTitle: 'Fire Flame',
-        functionIcon: 'flame'
+        functionIcon: 'flame',
       },
     ];
 
     return (
-      <Layout navigation={this.props.navigation} title="Home">
+      <Layout
+        navigation={this.props.navigation}
+        title="Home"
+        rightMenuOnPress={() => this.modal.open()}
+      >
+        <Modal
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: 500,
+            width: 400,
+          }}
+          position={'center'}
+          ref={r => (this.modal = r)}
+        >
+          <TextInput
+            onChangeText={ip => this.setState({ ip })}
+            value={this.state.ip}
+          />
+          <TextInput
+            onChangeText={name => this.setState({ name })}
+            value={this.state.name}
+          />
+
+          <Button transparent onPress={this.addDevice}>
+            <Text>Add</Text>
+          </Button>
+        </Modal>
         <ScrollView>
           <List>
-            <ListItem>
-              <Card>
-                <CardItem>
-                  <Left>
-                    <Icon name="bulb" />
-                    <Body>
-                      <Text>Light</Text>
-                      <Text note>Bedroom</Text>
-                    </Body>
-                  </Left>
-                  <Right>
-                    <Button transparent onPress={() => this.stop()}>
-                      <Icon
-                        style={{ color: 'gray', fontSize: 25 }}
-                        name="power"
+            {this.state.devices.map(device =>
+              <ListItem key={device.ip}>
+                <Card>
+                  <CardItem>
+                    <Left>
+                      <Icon name="bulb" />
+                      <Body>
+                        <Text>Light</Text>
+                        <Text note>
+                          {device.name}
+                        </Text>
+                      </Body>
+                    </Left>
+                    <Right>
+                      <Button transparent onPress={() => this.stop(device.ip)}>
+                        <Icon
+                          style={{ color: 'gray', fontSize: 25 }}
+                          name="power"
+                        />
+                      </Button>
+                    </Right>
+                  </CardItem>
+                  <CardItem>
+                    {colors.map(color =>
+                      <Button
+                        key={color.backgroundColor}
+                        onPress={() =>
+                          this.changeColor(color.lightColor, device.ip)}
+                        style={{
+                          backgroundColor: color.backgroundColor,
+                          marginLeft: 8,
+                          height: 35,
+                          width: 40,
+                          flex: 6,
+                        }}
                       />
-                    </Button>
-                  </Right>
-                </CardItem>
-                <CardItem>
-                  {colors.map(color => (
-                    <Button
-                      key={color.backgroundColor}
-                      onPress={() => this.changeColor(color.lightColor)}
-                      style={{
-                        backgroundColor: color.backgroundColor,
-                        marginLeft: 8,
-                        height: 35,
-                        width: 40,
-                        flex: 6,
-                      }}
-                    />
-                  ))}
-                </CardItem>
-                <CardItem>
-                  {effects.map(effect => (
-                    <Button
-                      key={effect.functionName}
-                      onPress={() => this.changeEffect(effect.functionName)}
-                      style={{
-                        backgroundColor: '#90A4AE',
-                        marginLeft: 8,
-                        height: 35,
-                        width: 40,
-                        flex: 6,
-                      }}
-                    >
-                    <Icon name={effect.functionIcon}/>
-                  </Button>
-                  ))}
-                </CardItem>
-                <CardItem>
-                  <Body style={{alignItems: 'center' }}>
-                  <ColorPicker
-                    onColorSelected={color =>
-                      fetch('http://192.168.1.234/hex=' + color.substr(1, 6))}
-                    style={{ width: 200 ,height: 200 }}
-                  />
-                </Body>
-                </CardItem>
-              </Card>
-            </ListItem>
+                    )}
+                  </CardItem>
+                  <CardItem>
+                    {effects.map(effect =>
+                      <Button
+                        key={effect.functionName}
+                        onPress={() =>
+                          this.changeEffect(effect.functionName, device.ip)}
+                        style={{
+                          backgroundColor: '#90A4AE',
+                          marginLeft: 8,
+                          height: 35,
+                          width: 40,
+                          flex: 6,
+                        }}
+                      >
+                        <Icon name={effect.functionIcon} />
+                      </Button>
+                    )}
+                  </CardItem>
+                  {/*
+
+<CardItem>
+<Body style={{ alignItems: 'center' }}>
+<ColorPicker
+onColorSelected={color =>
+fetch(
+'http://192.168.1.234/hex=' + color.substr(1, 6)
+)}
+style={{ width: 200, height: 200 }}
+/>
+</Body>
+</CardItem>
+                             */}
+                </Card>
+              </ListItem>
+            )}
           </List>
         </ScrollView>
       </Layout>

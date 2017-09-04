@@ -26,7 +26,7 @@ export default class Layout extends React.Component {
   render() {
     return (
       <Container>
-        <Header>
+        <Header style={{backgroundColor: '#0097a7'}} androidStatusBarColor='#00838f'>
           <Left>
             <Button
               transparent
@@ -42,7 +42,7 @@ export default class Layout extends React.Component {
           </Body>
           <Right>
             <Button transparent onPress={this.props.rightMenuOnPress}>
-              <Icon name="menu" />
+              <Icon name="add" />
             </Button>
           </Right>
         </Header>

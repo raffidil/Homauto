@@ -2,6 +2,7 @@ import React from 'react';
 import { DrawerNavigator } from 'react-navigation';
 import { AppRegistry, ScrollView, TextInput, View, AsyncStorage } from 'react-native';
 import Modal from 'react-native-modalbox';
+import { ColorPicker } from 'react-native-color-picker';
 import {
   List,
   ListItem,
@@ -12,8 +13,8 @@ import {
   Card,
   CardItem,
   Button,
-  Icon,
 } from 'native-base';
+import { Icon } from 'react-native-elements';
 // import { ColorPicker } from 'react-native-color-picker';
 import Layout from './components/Layout';
 import DrawerConfig from './components/DrawerConfig';
@@ -32,13 +33,10 @@ class Home extends React.Component {
           name: 'Bedroom',
           ip: '192.168.1.234',
         },
-        {
-          name: 'Bedroom',
-          ip: '192.168.1.235',
-        },
       ],
     };
   }
+
 
   componentWillMount(){
 
@@ -81,8 +79,13 @@ AsyncStorage.getItem('@MySuperStore:devices').then(jsonString => {
     });
     this.setState({ devices });
     AsyncStorage.setItem('@MySuperStore:devices', JSON.stringify(devices)).catch(console.warn)
-
   };
+
+  removeDevice = (index) => {
+  this.setState({
+    devices: this.state.devices.filter((x,i) => i != index )
+  });
+}
 
   render() {
     const colors = [
@@ -119,22 +122,22 @@ AsyncStorage.getItem('@MySuperStore:devices').then(jsonString => {
     const effects = [
       {
         functionName: 'rainbow',
-        functionTitle: 'Rainbow',
-        functionIcon: 'ios-color-filter',
+        functionTitle: 'rnb1',
+        functionIcon: 'looks-one',
       },
       {
         functionName: 'allrainbow',
-        functionTitle: 'All Rainbow',
+        functionTitle: 'rnb2',
         functionIcon: 'ios-color-filter-outline',
       },
       {
         functionName: 'jackcandle',
-        functionTitle: 'Jack Candle',
+        functionTitle: 'Jck',
         functionIcon: 'star',
       },
       {
         functionName: 'fire',
-        functionTitle: 'Fire Flame',
+        functionTitle: 'Flm',
         functionIcon: 'flame',
       },
     ];
@@ -171,7 +174,7 @@ AsyncStorage.getItem('@MySuperStore:devices').then(jsonString => {
             returnKeyType={'go'}
           />
         <View style={{flexDirection:'row', marginBottom: -10, marginTop: 10,alignSelf: 'flex-end',marginRight: 10}}>
-          <Button transparent onPress={this.addDevice} >
+          <Button transparent onPress={() => this.modal.close()} >
               <Text style={{color: 'teal',fontWeight: 'bold'}}>Cancel</Text>
             </Button>
         <Button transparent onPress={this.addDevice} >
@@ -180,14 +183,27 @@ AsyncStorage.getItem('@MySuperStore:devices').then(jsonString => {
         </View>
 
         </Modal>
+        <Modal
+          style={{
+            alignItems: 'center',
+            height: 450,
+          }}
+          position={'bottom'}
+          ref={r => (this.modal2 = r)}
+        >
+        <ColorPicker
+          onColorSelected={color =>
+            fetch('http://192.168.1.234/hex=' + color.substr(1, 6))}
+          style={{ width: 200,height: 200 }}
+        />
+        </Modal>
         <ScrollView>
-          <List>
-            {this.state.devices.map(device =>
-              <ListItem key={device.ip}>
-                <Card>
+            <Text style={{color: '#9E9E9E', marginTop: 5, marginLeft: 5}}>Device List</Text>
+            {this.state.devices.map((device, index) =>
+                <Card key={device.ip} style={{marginTop: 15}}>
                   <CardItem>
                     <Left>
-                      <Icon name="bulb" />
+                      <Icon name="lightbulb-outline" />
                       <Body>
                         <Text>
                           {device.name}
@@ -198,12 +214,13 @@ AsyncStorage.getItem('@MySuperStore:devices').then(jsonString => {
                     <Right>
                       <Button transparent onPress={() => this.stop(device.ip)}>
                         <Icon
-                          style={{ color: 'gray', fontSize: 25 }}
-                          name="power"
+                          color='gray'
+                          name="power-settings-new"
                         />
                       </Button>
                     </Right>
                   </CardItem>
+                    <View>
                   <CardItem>
                     {colors.map(color =>
                       <Button
@@ -234,10 +251,15 @@ AsyncStorage.getItem('@MySuperStore:devices').then(jsonString => {
                           flex: 6,
                         }}
                       >
-                        <Icon name={effect.functionIcon} />
+                        <Text>{effect.functionTitle}</Text>
                       </Button>
                     )}
                   </CardItem>
+                  <CardItem>
+                    <Button onPress={() => this.removeDevice(index)}><Text>Remove</Text></Button>
+                    <Button onPress={() => this.modal2.open()}><Text>colorpicker</Text></Button>
+                  </CardItem>
+                  </View>
                   {/*
 
 <CardItem>
@@ -253,9 +275,9 @@ style={{ width: 200, height: 200 }}
 </CardItem>
                              */}
                 </Card>
-              </ListItem>
+
             )}
-          </List>
+
         </ScrollView>
       </Layout>
     );

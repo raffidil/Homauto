@@ -157,6 +157,7 @@ AsyncStorage.getItem('@MySuperStore:devices').then(jsonString => {
         rightMenuOnPress={() => this.modal.open()}
       >
         <Modal
+          animationDuration={300}
           style={{
             justifyContent: 'center',
             height: 200,
@@ -178,6 +179,7 @@ AsyncStorage.getItem('@MySuperStore:devices').then(jsonString => {
             style={{width: 250,marginLeft: 20}}
             clearButtonMode={'always'}
             placeholder={'Name'}
+            maxLength={10}
             value={this.state.name}
             returnKeyType={'go'}
           />

@@ -34,6 +34,7 @@ export default class SettingPage extends React.Component {
                   style={{
                     height: 450,
                   }}
+                  animationDuration={300}
                   position={'bottom'}
                   ref={r => (this.modal = r)}
                 >
@@ -43,30 +44,13 @@ export default class SettingPage extends React.Component {
                       <Left>
                         <Icon name="lightbulb-outline" />
                       </Left>
-                      <Body><Text>LAMP1 Bedroom</Text></Body>
-                      <Right>
-                        <Button transparent><Icon name='edit' /></Button>
-                        <Button transparent><Icon name='delete' /></Button>
-                      </Right>
-                    </ListItem>
-                    <ListItem icon style={{marginTop: 10}}>
-                      <Left>
-                        <Icon name="lightbulb-outline" />
-                      </Left>
-                      <Body><Text>LAMP2 Bedroom</Text></Body>
-                      <Right>
-                        <Button transparent><Icon name='edit' /></Button>
-                        <Button transparent><Icon name='delete' /></Button>
-                      </Right>
-                    </ListItem>
-                    <ListItem icon style={{marginTop: 10}}>
-                      <Left>
-                        <Icon name="lightbulb-outline" />
-                      </Left>
-                      <Body><Text>LAMP3 Bedroom</Text></Body>
-                      <Right>
-                        <Button transparent><Icon name='edit' /></Button>
-                        <Button transparent><Icon name='delete' /></Button>
+                      <Body>
+                      <Text>bedroom light1</Text>
+                      </Body>
+                      <Right style={{marginRight: -10}}>
+                        <Button small transparent style={{marginRight: -10}}><Icon size={20} name='edit' /></Button>
+                        <Button small transparent style={{marginRight: -10}}><Icon size={20} name='signal-wifi-off' type='materialicons'/></Button>
+                        <Button small transparent style={{marginRight: -10}}><Icon size={20} name='delete' /></Button>
                       </Right>
                     </ListItem>
                   </List>

@@ -3,6 +3,10 @@ import {
     Text,
     View,
 } from 'react-native';
+import {
+  Card,
+  CardItem
+} from 'native-base';
 import { Icon, Button } from 'react-native-elements';
 import Layout from '../../components/Layout';
 import { ColorPicker } from 'react-native-color-picker';
@@ -24,16 +28,17 @@ export default class Devices extends React.Component {
   render() {
     return (
       <Layout navigation={this.props.navigation} title="Devices">
-        <Text style={{fontSize: 20, marginLeft: 10}}>Color Picker</Text>
+        <Card style={{marginTop: 10,marginLeft: 5, marginRight: 5}}>
+        <Text style={{fontSize: 20, marginLeft: 15, marginTop: 10}}>Color Picker</Text>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
           <ColorPicker
             defaultColor='#00ffeb'
             onColorSelected={color =>
               fetch('http://192.168.1.234/hex=' + color.substr(1, 6))}
-            style={{ width: 320,height: 300, }}
+            style={{ width: 330,height: 330, }}
           />
         </View>
-
+        </Card>
       </Layout>
     );
   }

@@ -90,6 +90,10 @@ AsyncStorage.getItem('@MySuperStore:devices').then(jsonString => {
   render() {
     const colors = [
       {
+        backgroundColor: '#ffffff',
+        lightColor: 'ffffff',
+      },
+      {
         backgroundColor: '#BA68C8',
         lightColor: 'DD00FF',
       },
@@ -123,22 +127,26 @@ AsyncStorage.getItem('@MySuperStore:devices').then(jsonString => {
       {
         functionName: 'rainbow',
         functionTitle: 'rnb1',
-        functionIcon: 'looks-one',
+        functionIcon: 'rainbow',
+        functionIconType: 'entypo',
       },
       {
         functionName: 'allrainbow',
         functionTitle: 'rnb2',
-        functionIcon: 'ios-color-filter-outline',
+        functionIcon: 'yelp',
+        functionIconType: 'entypo',
       },
       {
         functionName: 'jackcandle',
         functionTitle: 'Jck',
-        functionIcon: 'star',
+        functionIcon: 'water',
+        functionIconType: 'entypo',
       },
       {
         functionName: 'fire',
         functionTitle: 'Flm',
-        functionIcon: 'flame',
+        functionIcon: 'ios-bonfire',
+        functionIconType: 'ionicon',
       },
     ];
 
@@ -185,22 +193,28 @@ AsyncStorage.getItem('@MySuperStore:devices').then(jsonString => {
         </Modal>
         <Modal
           style={{
-            alignItems: 'center',
-            height: 450,
+
+            height: 400,
           }}
-          position={'bottom'}
+          position={'center'}
           ref={r => (this.modal2 = r)}
         >
         <ColorPicker
           onColorSelected={color =>
             fetch('http://192.168.1.234/hex=' + color.substr(1, 6))}
-          style={{ width: 200,height: 200 }}
+          style={{height: 300,
+          width: 300 }}
         />
+      <View style={{flexDirection:'row', marginBottom: -10, marginTop: 10,alignSelf: 'flex-end',marginRight: 10}}>
+      <Button transparent onPress={() => this.modal2.close()} >
+            <Text style={{color: 'teal',fontWeight: 'bold'}}>Cancel</Text>
+          </Button>
+        </View>
         </Modal>
         <ScrollView>
-            <Text style={{color: '#9E9E9E', marginTop: 5, marginLeft: 5}}>Device List</Text>
+            <Text style={{color: '#9E9E9E', marginTop: 7, marginLeft: 10}}>Device List</Text>
             {this.state.devices.map((device, index) =>
-                <Card key={device.ip} style={{marginTop: 15}}>
+                <Card key={device.ip} style={{marginTop: 10,marginLeft: 5, marginRight: 5}}>
                   <CardItem>
                     <Left>
                       <Icon name="lightbulb-outline" />
@@ -224,14 +238,14 @@ AsyncStorage.getItem('@MySuperStore:devices').then(jsonString => {
                   <CardItem>
                     {colors.map(color =>
                       <Button
+                        small
+                        borderRadius={15}
                         key={color.backgroundColor}
                         onPress={() =>
                           this.changeColor(color.lightColor, device.ip)}
                         style={{
                           backgroundColor: color.backgroundColor,
                           marginLeft: 8,
-                          height: 35,
-                          width: 40,
                           flex: 6,
                         }}
                       />
@@ -240,24 +254,43 @@ AsyncStorage.getItem('@MySuperStore:devices').then(jsonString => {
                   <CardItem>
                     {effects.map(effect =>
                       <Button
+                        small
+                        borderRadius={12}
                         key={effect.functionName}
                         onPress={() =>
                           this.changeEffect(effect.functionName, device.ip)}
                         style={{
                           backgroundColor: '#90A4AE',
                           marginLeft: 8,
-                          height: 35,
-                          width: 40,
                           flex: 6,
+                          height: 35,
+                          alignItems: 'center', justifyContent: 'center'
                         }}
                       >
-                        <Text>{effect.functionTitle}</Text>
+                      <Icon name={effect.functionIcon}
+                        type={effect.functionIconType}
+                        color='#ffffff'/>
                       </Button>
                     )}
                   </CardItem>
                   <CardItem>
-                    <Button onPress={() => this.removeDevice(index)}><Text>Remove</Text></Button>
-                    <Button onPress={() => this.modal2.open()}><Text>colorpicker</Text></Button>
+                    <Left>
+                      <Button borderRadius={15}
+                        small
+                        onPress={() => this.removeDevice(index)}>
+                        <Icon
+                          name='md-trash' type='ionicon' color='#ffffff'/>
+                        </Button>
+                    </Left>
+                    <Right>
+                      <Button
+                        small
+                        borderRadius={15}
+                        onPress={() => this.modal2.open()}
+                      ><Icon
+                        name='md-color-palette' type='ionicon' color='#ffffff'/>
+                      </Button>
+                  </Right>
                   </CardItem>
                   </View>
                   {/*

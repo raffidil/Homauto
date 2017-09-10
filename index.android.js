@@ -1,25 +1,9 @@
 import React from 'react';
 import { DrawerNavigator } from 'react-navigation';
-import {
-  AppRegistry,
-  ScrollView,
-  TextInput,
-  View,
-  AsyncStorage,
-} from 'react-native';
+import { AppRegistry, ScrollView, TextInput, View } from 'react-native';
 import Modal from 'react-native-modalbox';
 import { ColorPicker } from 'react-native-color-picker';
-import {
-  List,
-  ListItem,
-  Text,
-  Right,
-  Left,
-  Body,
-  Card,
-  CardItem,
-  Button,
-} from 'native-base';
+import { Text, Right, Left, Body, Card, CardItem, Button } from 'native-base';
 import { Icon } from 'react-native-elements';
 // import { ColorPicker } from 'react-native-color-picker';
 import Layout from './components/Layout';
@@ -27,6 +11,7 @@ import DrawerConfig from './components/DrawerConfig';
 import Devices from './screens/Devices/Devices';
 import Setting from './screens/Setting/Setting';
 import About from './screens/About/About';
+import { getDevices, saveToDatabase } from './db';
 
 class Home extends React.Component {
   constructor(props) {
@@ -34,22 +19,12 @@ class Home extends React.Component {
     this.state = {
       ip: '',
       name: '',
-      devices: [
-        {
-          name: 'Bedroom',
-          ip: '192.168.1.234',
-        },
-      ],
+      devices: [],
     };
   }
 
   componentWillMount() {
-    AsyncStorage.getItem('@MySuperStore:devices')
-      .then(jsonString => {
-        const devices = JSON.parse(jsonString);
-        this.setState({ devices });
-      })
-      .catch(console.warn);
+    getDevices().then(devices => this.setState({ devices }));
   }
 
   props: {
@@ -80,23 +55,15 @@ class Home extends React.Component {
     const { devices, ip, name } = this.state;
     devices.push({
       name,
-      ip,
+      ip: `192.168.1.${ip}`,
     });
     this.setState({ devices });
-    AsyncStorage.setItem(
-      '@MySuperStore:devices',
-      JSON.stringify(devices)
-    ).catch(console.warn);
+    saveToDatabase({ devices });
   };
 
   removeDevice = index => {
-    this.setState({
-      devices: this.state.devices.filter((x, i) => i != index),
-    });
-    AsyncStorage.setItem(
-      '@MySuperStore:devices',
-      JSON.stringify(devices)
-    ).catch(console.warn);
+    const devices = this.state.devices.filter((x, i) => i !== index);
+    this.setState({ devices }, () => saveToDatabase({ devices }));
   };
 
   render() {
@@ -245,93 +212,94 @@ class Home extends React.Component {
           <Text style={{ color: '#9E9E9E', marginTop: 7, marginLeft: 10 }}>
             Device List
           </Text>
-          {this.state.devices.map((device, index) => (
-            <Card
-              key={device.ip}
-              style={{ marginTop: 10, marginLeft: 5, marginRight: 5 }}
-            >
-              <CardItem>
-                <Left>
-                  <Icon name="lightbulb-outline" />
-                  <Body>
-                    <Text>{device.name}</Text>
-                    <Text note>Light</Text>
-                  </Body>
-                </Left>
-                <Right>
-                  <Button transparent onPress={() => this.stop(device.ip)}>
-                    <Icon color="gray" name="power-settings-new" />
-                  </Button>
-                </Right>
-              </CardItem>
-              <View>
-                <CardItem>
-                  {colors.map(color => (
-                    <Button
-                      small
-                      borderRadius={15}
-                      key={color.backgroundColor}
-                      onPress={() =>
-                        this.changeColor(color.lightColor, device.ip)}
-                      style={{
-                        backgroundColor: color.backgroundColor,
-                        marginLeft: 8,
-                        flex: 6,
-                      }}
-                    />
-                  ))}
-                </CardItem>
-                <CardItem>
-                  {effects.map(effect => (
-                    <Button
-                      small
-                      borderRadius={12}
-                      key={effect.functionName}
-                      onPress={() =>
-                        this.changeEffect(effect.functionName, device.ip)}
-                      style={{
-                        backgroundColor: '#90A4AE',
-                        marginLeft: 8,
-                        flex: 6,
-                        height: 35,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <Icon
-                        name={effect.functionIcon}
-                        type={effect.functionIconType}
-                        color="#ffffff"
-                      />
-                    </Button>
-                  ))}
-                </CardItem>
+          {this.state.devices &&
+            this.state.devices.map((device, index) => (
+              <Card
+                key={device.ip}
+                style={{ marginTop: 10, marginLeft: 5, marginRight: 5 }}
+              >
                 <CardItem>
                   <Left>
-                    <Button
-                      borderRadius={15}
-                      small
-                      onPress={() => this.removeDevice(index)}
-                    >
-                      <Icon name="md-trash" type="ionicon" color="#ffffff" />
-                    </Button>
+                    <Icon name="lightbulb-outline" />
+                    <Body>
+                      <Text>{device.name}</Text>
+                      <Text note>Light</Text>
+                    </Body>
                   </Left>
                   <Right>
-                    <Button
-                      small
-                      borderRadius={15}
-                      onPress={() => this.modal2.open()}
-                    >
-                      <Icon
-                        name="md-color-palette"
-                        type="ionicon"
-                        color="#ffffff"
-                      />
+                    <Button transparent onPress={() => this.stop(device.ip)}>
+                      <Icon color="gray" name="power-settings-new" />
                     </Button>
                   </Right>
                 </CardItem>
-              </View>
-              {/*
+                <View>
+                  <CardItem>
+                    {colors.map(color => (
+                      <Button
+                        small
+                        borderRadius={15}
+                        key={color.backgroundColor}
+                        onPress={() =>
+                          this.changeColor(color.lightColor, device.ip)}
+                        style={{
+                          backgroundColor: color.backgroundColor,
+                          marginLeft: 8,
+                          flex: 6,
+                        }}
+                      />
+                    ))}
+                  </CardItem>
+                  <CardItem>
+                    {effects.map(effect => (
+                      <Button
+                        small
+                        borderRadius={12}
+                        key={effect.functionName}
+                        onPress={() =>
+                          this.changeEffect(effect.functionName, device.ip)}
+                        style={{
+                          backgroundColor: '#90A4AE',
+                          marginLeft: 8,
+                          flex: 6,
+                          height: 35,
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <Icon
+                          name={effect.functionIcon}
+                          type={effect.functionIconType}
+                          color="#ffffff"
+                        />
+                      </Button>
+                    ))}
+                  </CardItem>
+                  <CardItem>
+                    <Left>
+                      <Button
+                        borderRadius={15}
+                        small
+                        onPress={() => this.removeDevice(index)}
+                      >
+                        <Icon name="md-trash" type="ionicon" color="#ffffff" />
+                      </Button>
+                    </Left>
+                    <Right>
+                      <Button
+                        small
+                        borderRadius={15}
+                        onPress={() => this.modal2.open()}
+                      >
+                        <Icon
+                          name="md-color-palette"
+                          type="ionicon"
+                          color="#ffffff"
+                        />
+                      </Button>
+                    </Right>
+                  </CardItem>
+                </View>
+                {/*
 
 <CardItem>
 <Body style={{ alignItems: 'center' }}>
@@ -345,8 +313,8 @@ style={{ width: 200, height: 200 }}
 </Body>
 </CardItem>
                              */}
-            </Card>
-          ))}
+              </Card>
+            ))}
         </ScrollView>
       </Layout>
     );

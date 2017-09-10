@@ -10,16 +10,18 @@ import {
   Body,
   Right,
   Button,
-  Icon,
   Title,
   Content,
 } from 'native-base';
+import { Icon } from 'react-native-elements';
 
 export default class Layout extends React.Component {
   props: {
     children: any,
     navigation: any,
     title: string,
+    iconName: string,
+    iconType: string,
     rightMenuOnPress: () => void,
   };
 
@@ -32,7 +34,7 @@ export default class Layout extends React.Component {
               transparent
               onPress={() => this.props.navigation.navigate('DrawerOpen')}
             >
-              <Icon name="menu" />
+              <Icon name="menu" color="#ffffff"/>
             </Button>
           </Left>
           <Body>
@@ -41,8 +43,8 @@ export default class Layout extends React.Component {
             </Title>
           </Body>
           <Right>
-            <Button transparent onPress={this.props.rightMenuOnPress}>
-              <Icon name="add" />
+            <Button transparent onPress={this.props.rightMenuOnPress} >
+              <Icon name={this.props.iconName} type={this.props.iconType} color="#ffffff"/>
             </Button>
           </Right>
         </Header>

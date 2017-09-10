@@ -8,12 +8,12 @@ import {
   View,
 } from 'react-native';
 import Modal from 'react-native-modalbox';
-import { ColorPicker } from 'react-native-color-picker';
 import { Text, Right, Left, Body, Card, CardItem, Button } from 'native-base';
 import { Icon } from 'react-native-elements';
 import Layout from './components/Layout';
 import DrawerConfig from './components/DrawerConfig';
-import Devices from './screens/Devices/Devices';
+import ColorPickerScreen from './screens/ColorPickerScreen/ColorPickerScreen';
+import OptionScreen from './screens/OptionScreen/OptionScreen';
 import Setting from './screens/Setting/Setting';
 import About from './screens/About/About';
 import { getDevices, saveToDatabase } from './db';
@@ -42,11 +42,6 @@ class Home extends React.Component {
     fetch(url);
   };
 
-  changeEffect = (effect, ip) => {
-    const url = `http://${ip}/${effect}`;
-    fetch(url);
-  };
-
   toggleCard = index => {
     const { devices } = this.state;
     const device = devices[index];
@@ -71,8 +66,9 @@ class Home extends React.Component {
       devices.map(device => device.ip).includes(`192.168.1.${ip}`)
     ) {
       Snackbar.show({
-        title: 'Hello world',
-        duration: Snackbar.LENGTH_SHORT,
+        title: 'this device is already added',
+        duration: Snackbar.LENGTH_LONG,
+        backgroundColor: '#ff0000'
       });
     } else {
       devices.push({
@@ -126,37 +122,12 @@ class Home extends React.Component {
       },
     ];
 
-    const effects = [
-      {
-        functionName: 'rainbow',
-        functionTitle: 'rnb1',
-        functionIcon: 'rainbow',
-        functionIconType: 'entypo',
-      },
-      {
-        functionName: 'allrainbow',
-        functionTitle: 'rnb2',
-        functionIcon: 'yelp',
-        functionIconType: 'entypo',
-      },
-      {
-        functionName: 'jackcandle',
-        functionTitle: 'Jck',
-        functionIcon: 'water',
-        functionIconType: 'entypo',
-      },
-      {
-        functionName: 'fire',
-        functionTitle: 'Flm',
-        functionIcon: 'ios-bonfire',
-        functionIconType: 'ionicon',
-      },
-    ];
-
     return (
       <Layout
         navigation={this.props.navigation}
         title="Home"
+        iconName="add-to-list"
+        iconType="entypo"
         rightMenuOnPress={() => this.modal.open()}
       >
         <Modal
@@ -204,35 +175,6 @@ class Home extends React.Component {
             </Button>
           </View>
         </Modal>
-        <Modal
-          style={{
-            height: 400,
-          }}
-          position={'center'}
-          ref={r => (this.modal2 = r)}
-        >
-          <ColorPicker
-            onColorSelected={color =>
-              fetch('http://192.168.1.234/hex=' + color.substr(1, 6))}
-            style={{
-              height: 300,
-              width: 300,
-            }}
-          />
-          <View
-            style={{
-              flexDirection: 'row',
-              marginBottom: -10,
-              marginTop: 10,
-              alignSelf: 'flex-end',
-              marginRight: 10,
-            }}
-          >
-            <Button transparent onPress={() => this.modal2.close()}>
-              <Text style={{ color: 'teal', fontWeight: 'bold' }}>Cancel</Text>
-            </Button>
-          </View>
-        </Modal>
         <ScrollView>
           <Text style={{ color: '#9E9E9E', marginTop: 7, marginLeft: 10 }}>
             Device List
@@ -277,70 +219,41 @@ class Home extends React.Component {
                     ))}
                   </CardItem>
                   <CardItem>
-                    {effects.map(effect => (
-                      <Button
-                        small
-                        borderRadius={12}
-                        key={effect.functionName}
-                        onPress={() =>
-                          this.changeEffect(effect.functionName, device.ip)}
-                        style={{
-                          backgroundColor: '#90A4AE',
-                          marginLeft: 8,
-                          flex: 6,
-                          height: 35,
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <Icon
-                          name={effect.functionIcon}
-                          type={effect.functionIconType}
-                          color="#ffffff"
-                        />
-                      </Button>
-                    ))}
-                  </CardItem>
-                  <CardItem>
                     <Left>
                       <Button
-                        borderRadius={15}
                         small
-                        onPress={() => this.removeDevice(index)}
-                      >
-                        <Icon name="md-trash" type="ionicon" color="#ffffff" />
-                      </Button>
-                    </Left>
-                    <Right>
-                      <Button
-                        small
+                        iconLeft
                         borderRadius={15}
                         onPress={() =>
-                          this.props.navigation.navigate('Devices', device)}
+                          this.props.navigation.navigate('ColorPickerScreen', device)}
                       >
                         <Icon
                           name="md-color-palette"
                           type="ionicon"
                           color="#ffffff"
                         />
+                      <Text style={{marginLeft: 10}}>Color Picker</Text>
+                      </Button>
+                    </Left>
+                    <Right>
+                      <Button
+                        small
+                        iconLeft
+                        borderRadius={15}
+                        onPress={() =>
+                          this.props.navigation.navigate('OptionScreen', device)}
+                      >
+
+                        <Icon
+                          name="md-color-palette"
+                          type="ionicon"
+                          color="#ffffff"
+                        />
+                      <Text style={{marginLeft: 10}}>Options</Text>
                       </Button>
                     </Right>
                   </CardItem>
                 </View>
-                {/*
-
-<CardItem>
-<Body style={{ alignItems: 'center' }}>
-<ColorPicker
-onColorSelected={color =>
-fetch(
-'http://192.168.1.234/hex=' + color.substr(1, 6)
-)}
-style={{ width: 200, height: 200 }}
-/>
-</Body>
-</CardItem>
-                             */}
               </Card>
             ))}
         </ScrollView>
@@ -380,8 +293,11 @@ const ModalStack = StackNavigator(
     Home: {
       screen: BasicApp,
     },
-    Devices: {
-      screen: Devices,
+    ColorPickerScreen: {
+      screen: ColorPickerScreen,
+    },
+    OptionScreen: {
+      screen: OptionScreen,
     },
   },
   { headerMode: 'none', mode: 'modal' }

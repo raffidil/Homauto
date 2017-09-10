@@ -29,7 +29,7 @@ export default class SettingPage extends React.Component {
 
   render() {
     return (
-      <Layout navigation={this.props.navigation} title="Setting">
+      <Layout navigation={this.props.navigation} title="Setting" iconName="dots-vertical" iconType="material-community">
         <Modal
           backButtonClose
           style={{
@@ -54,7 +54,12 @@ export default class SettingPage extends React.Component {
                       <Button small transparent style={{ marginRight: -10 }}>
                         <Icon size={20} name="edit" />
                       </Button>
-                      <Button small transparent style={{ marginRight: -10 }}>
+                      <Button
+                        small
+                        transparent
+                        style={{ marginRight: -10 }}
+                        onPress={() => {fetch(`http://${device.ip}/wifireset`)}}
+                        >
                         <Icon
                           size={20}
                           name="signal-wifi-off"

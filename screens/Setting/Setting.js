@@ -31,6 +31,7 @@ export default class SettingPage extends React.Component {
     return (
       <Layout navigation={this.props.navigation} title="Setting">
         <Modal
+          backButtonClose
           style={{
             height: 450,
           }}

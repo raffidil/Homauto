@@ -1,6 +1,12 @@
 import React from 'react';
-import { DrawerNavigator } from 'react-navigation';
-import { AppRegistry, ScrollView, TextInput, View } from 'react-native';
+import { DrawerNavigator, StackNavigator } from 'react-navigation';
+import {
+  TouchableHighlight,
+  AppRegistry,
+  ScrollView,
+  TextInput,
+  View,
+} from 'react-native';
 import Modal from 'react-native-modalbox';
 import { ColorPicker } from 'react-native-color-picker';
 import { Text, Right, Left, Body, Card, CardItem, Button } from 'native-base';
@@ -41,6 +47,13 @@ class Home extends React.Component {
     fetch(url);
   };
 
+  toggleCard = index => {
+    const { devices } = this.state;
+    const device = devices[index];
+    device.cardOpen = !device.cardOpen;
+    this.setState({ devices }, () => saveToDatabase({ devices }));
+  };
+
   static navigationOptions = {
     drawerLabel: 'Home',
     drawerIcon: () => <Icon name="home" />,
@@ -53,12 +66,17 @@ class Home extends React.Component {
   addDevice = () => {
     this.modal.close();
     const { devices, ip, name } = this.state;
-    devices.push({
-      name,
-      ip: `192.168.1.${ip}`,
-    });
-    this.setState({ devices });
-    saveToDatabase({ devices });
+    if (devices.map(device => device.ip).includes(`192.168.1.${ip}`)) {
+      console.log('error');
+    } else {
+      devices.push({
+        name,
+        ip: `192.168.1.${ip}`,
+        cardOpen: false,
+      });
+      this.setState({ devices });
+      saveToDatabase({ devices });
+    }
   };
 
   removeDevice = index => {
@@ -136,6 +154,7 @@ class Home extends React.Component {
         rightMenuOnPress={() => this.modal.open()}
       >
         <Modal
+          backButtonClose
           animationDuration={300}
           style={{
             justifyContent: 'center',
@@ -218,21 +237,23 @@ class Home extends React.Component {
                 key={device.ip}
                 style={{ marginTop: 10, marginLeft: 5, marginRight: 5 }}
               >
-                <CardItem>
-                  <Left>
-                    <Icon name="lightbulb-outline" />
-                    <Body>
-                      <Text>{device.name}</Text>
-                      <Text note>Light</Text>
-                    </Body>
-                  </Left>
-                  <Right>
-                    <Button transparent onPress={() => this.stop(device.ip)}>
-                      <Icon color="gray" name="power-settings-new" />
-                    </Button>
-                  </Right>
-                </CardItem>
-                <View>
+                <TouchableHighlight onPress={() => this.toggleCard(index)}>
+                  <CardItem>
+                    <Left>
+                      <Icon name="lightbulb-outline" />
+                      <Body>
+                        <Text>{device.name}</Text>
+                        <Text note>Light</Text>
+                      </Body>
+                    </Left>
+                    <Right>
+                      <Button transparent onPress={() => this.stop(device.ip)}>
+                        <Icon color="gray" name="power-settings-new" />
+                      </Button>
+                    </Right>
+                  </CardItem>
+                </TouchableHighlight>
+                <View style={{ display: device.cardOpen ? 'flex' : 'none' }}>
                   <CardItem>
                     {colors.map(color => (
                       <Button
@@ -288,7 +309,8 @@ class Home extends React.Component {
                       <Button
                         small
                         borderRadius={15}
-                        onPress={() => this.modal2.open()}
+                        onPress={() =>
+                          this.props.navigation.navigate('Devices', device)}
                       >
                         <Icon
                           name="md-color-palette"
@@ -325,9 +347,6 @@ const routesConfig = {
   Home: {
     screen: Home,
   },
-  Devices: {
-    screen: Devices,
-  },
   Setting: {
     screen: Setting,
   },
@@ -350,4 +369,16 @@ const drawerNavigatorConfig = {
 
 const BasicApp = DrawerNavigator(routesConfig, drawerNavigatorConfig);
 
-AppRegistry.registerComponent('Homauto', () => BasicApp);
+const ModalStack = StackNavigator(
+  {
+    Home: {
+      screen: BasicApp,
+    },
+    Devices: {
+      screen: Devices,
+    },
+  },
+  { headerMode: 'none', mode: 'modal' }
+);
+
+AppRegistry.registerComponent('Homauto', () => ModalStack);

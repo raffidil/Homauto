@@ -43,7 +43,7 @@ export default class SettingPage extends React.Component {
             <List>
               {this.state.devices &&
                 this.state.devices.map((device, index) => (
-                  <ListItem icon style={{ marginTop: 10 }}>
+                  <ListItem icon style={{ marginTop: 10 }} key={device.ip}>
                     <Left>
                       <Icon name="lightbulb-outline" />
                     </Left>

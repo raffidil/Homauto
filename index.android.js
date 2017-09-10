@@ -66,7 +66,10 @@ class Home extends React.Component {
   addDevice = () => {
     this.modal.close();
     const { devices, ip, name } = this.state;
-    if (devices.map(device => device.ip).includes(`192.168.1.${ip}`)) {
+    if (
+      devices &&
+      devices.map(device => device.ip).includes(`192.168.1.${ip}`)
+    ) {
       Snackbar.show({
         title: 'Hello world',
         duration: Snackbar.LENGTH_SHORT,

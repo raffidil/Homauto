@@ -4,7 +4,9 @@ export const getDevices = () => {
   return AsyncStorage.getItem('@MySuperStore:devices')
     .then(jsonString => {
       const devices = JSON.parse(jsonString);
-      return devices;
+      if (devices) return devices;
+
+      return [];
     })
     .catch(console.warn);
 };

@@ -9,7 +9,7 @@ import {
 } from 'native-base';
 import { Icon, Button } from 'react-native-elements';
 import Layout from '../../components/Layout';
-import { ColorPicker } from 'react-native-color-picker';
+import { ColorPicker } from '../../components/react-native-color-picker/src/';
 
 export default class Devices extends React.Component {
   props:{

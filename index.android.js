@@ -11,13 +11,13 @@ import Modal from 'react-native-modalbox';
 import { ColorPicker } from 'react-native-color-picker';
 import { Text, Right, Left, Body, Card, CardItem, Button } from 'native-base';
 import { Icon } from 'react-native-elements';
-// import { ColorPicker } from 'react-native-color-picker';
 import Layout from './components/Layout';
 import DrawerConfig from './components/DrawerConfig';
 import Devices from './screens/Devices/Devices';
 import Setting from './screens/Setting/Setting';
 import About from './screens/About/About';
 import { getDevices, saveToDatabase } from './db';
+import Snackbar from 'react-native-snackbar';
 
 class Home extends React.Component {
   constructor(props) {
@@ -67,7 +67,10 @@ class Home extends React.Component {
     this.modal.close();
     const { devices, ip, name } = this.state;
     if (devices.map(device => device.ip).includes(`192.168.1.${ip}`)) {
-      console.log('error');
+      Snackbar.show({
+        title: 'Hello world',
+        duration: Snackbar.LENGTH_SHORT,
+      });
     } else {
       devices.push({
         name,

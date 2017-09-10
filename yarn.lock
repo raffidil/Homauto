@@ -3529,6 +3529,12 @@ react-devtools-core@2.3.1:
     shell-quote "^1.6.1"
     ws "^2.0.3"
 
+react-native-collapsible@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/react-native-collapsible/-/react-native-collapsible-0.9.0.tgz#207849faa15493820d19fa6a5e58f7c7b6c1b910"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-color-picker@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/react-native-color-picker/-/react-native-color-picker-0.3.1.tgz#5bd06bbd7971a61fcff829949d4cdd4602364acd"

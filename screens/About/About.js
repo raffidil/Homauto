@@ -18,7 +18,13 @@ export default class AboutPage extends React.Component {
 
   render() {
     return (
-      <Layout navigation={this.props.navigation} title="About" iconName="dots-vertical" iconType="material-community" >
+      <Layout
+        navigation={this.props.navigation}
+        title="About"
+        LeftIconName="dots-vertical"
+        LeftIconType="material-community"
+        RightIconName="menu"
+         >
         <Text>About</Text>
       </Layout>
     );

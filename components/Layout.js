@@ -20,8 +20,10 @@ export default class Layout extends React.Component {
     children: any,
     navigation: any,
     title: string,
-    iconName: string,
-    iconType: string,
+    LeftIconName: string,
+    LeftIconType: string,
+    RightIconName: string,
+    RightIconType: string,
     rightMenuOnPress: () => void,
   };
 
@@ -34,7 +36,7 @@ export default class Layout extends React.Component {
               transparent
               onPress={() => this.props.navigation.navigate('DrawerOpen')}
             >
-              <Icon name="menu" color="#ffffff"/>
+              <Icon name={this.props.RightIconName} type={this.props.RightIconType} color="#ffffff"/>
             </Button>
           </Left>
           <Body>
@@ -44,7 +46,7 @@ export default class Layout extends React.Component {
           </Body>
           <Right>
             <Button transparent onPress={this.props.rightMenuOnPress} >
-              <Icon name={this.props.iconName} type={this.props.iconType} color="#ffffff"/>
+              <Icon name={this.props.LeftIconName} type={this.props.LeftIconType} color="#ffffff"/>
             </Button>
           </Right>
         </Header>

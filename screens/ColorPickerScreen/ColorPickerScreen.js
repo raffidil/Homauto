@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
-import { Card, CardItem, Left, Right, Body, Text } from 'native-base';
-import { Icon, Button } from 'react-native-elements';
+import { Card, CardItem, Left, Right, Body, Text, Button } from 'native-base';
+import { Icon } from 'react-native-elements';
 import Layout from '../../components/Layout';
 import { ColorPicker } from '../../components/react-native-color-picker/src/';
 
@@ -10,11 +10,21 @@ export default class ColorPickerScreen extends React.Component {
     navigation: any,
   };
 
+  stop = ip => {
+    fetch(`http://${ip}/stop`);
+  };
+
   render() {
     const device = this.props.navigation.state.params;
 
     return (
-      <Layout navigation={this.props.navigation} title="Color Picker" iconName="help-circle" iconType="material-community">
+      <Layout
+        navigation={this.props.navigation}
+        title="Color Picker"
+        LeftIconName="help-circle"
+        LeftIconType="material-community"
+        RightIconName="md-arrow-back"
+        RightIconType="ionicon">
         <Card style={{ marginTop: 10, marginLeft: 5, marginRight: 5 }}>
           <CardItem>
             <Left>
@@ -30,6 +40,7 @@ export default class ColorPickerScreen extends React.Component {
               </Button>
             </Right>
           </CardItem>
+          <CardItem>
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <ColorPicker
               defaultColor="#00ffeb"
@@ -38,6 +49,7 @@ export default class ColorPickerScreen extends React.Component {
               style={{ width: 330, height: 330 }}
             />
           </View>
+          </CardItem>
         </Card>
       </Layout>
     );

@@ -126,8 +126,9 @@ class Home extends React.Component {
       <Layout
         navigation={this.props.navigation}
         title="Home"
-        iconName="add-to-list"
-        iconType="entypo"
+        LeftIconName="add-to-list"
+        LeftIconType="entypo"
+        RightIconName="menu"
         rightMenuOnPress={() => this.modal.open()}
       >
         <Modal
@@ -221,6 +222,7 @@ class Home extends React.Component {
                   <CardItem>
                     <Left>
                       <Button
+                        backgroundColor="#607D8B"
                         small
                         iconLeft
                         borderRadius={15}
@@ -237,6 +239,7 @@ class Home extends React.Component {
                     </Left>
                     <Right>
                       <Button
+                        backgroundColor="#607D8B"
                         small
                         iconLeft
                         borderRadius={15}
@@ -245,7 +248,7 @@ class Home extends React.Component {
                       >
 
                         <Icon
-                          name="md-color-palette"
+                          name="ios-options"
                           type="ionicon"
                           color="#ffffff"
                         />

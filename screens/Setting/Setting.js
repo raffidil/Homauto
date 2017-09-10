@@ -3,7 +3,7 @@ import Layout from '../../components/Layout';
 import { List, ListItem, Text, Right, Left, Body, Button } from 'native-base';
 import { Icon } from 'react-native-elements';
 import Modal from 'react-native-modalbox';
-import { ScrollView } from 'react-native';
+import { ScrollView, TextInput } from 'react-native';
 import { getDevices, saveToDatabase } from '../../db';
 
 export default class SettingPage extends React.Component {
@@ -29,7 +29,9 @@ export default class SettingPage extends React.Component {
 
   render() {
     return (
-      <Layout navigation={this.props.navigation} title="Setting" iconName="dots-vertical" iconType="material-community">
+      <Layout navigation={this.props.navigation} title="Setting" LeftIconName="dots-vertical"
+      LeftIconType="material-community"
+      RightIconName="menu">
         <Modal
           backButtonClose
           style={{

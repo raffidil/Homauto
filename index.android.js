@@ -66,9 +66,14 @@ class Home extends React.Component {
       devices.map(device => device.ip).includes(`192.168.1.${ip}`)
     ) {
       Snackbar.show({
-        title: 'this device is already added',
-        duration: Snackbar.LENGTH_LONG,
-        backgroundColor: '#ff0000'
+        title: 'This device is already added',
+        duration: Snackbar.LENGTH_INDEFINITE,
+        backgroundColor: '#E53935',
+        action: {
+              title: 'CLOSE',
+              onPress: () => Snackbar.dismiss(),
+              color: 'white',
+            },
       });
     } else {
       devices.push({
@@ -187,7 +192,7 @@ class Home extends React.Component {
                 style={{ marginTop: 10, marginLeft: 5, marginRight: 5 }}
               >
                 <TouchableHighlight onPress={() => this.toggleCard(index)}>
-                  <CardItem>
+                  <CardItem style={{backgroundColor: '#F5F5F5'}}>
                     <Left>
                       <Icon name="lightbulb-outline" />
                       <Body>
@@ -203,7 +208,7 @@ class Home extends React.Component {
                   </CardItem>
                 </TouchableHighlight>
                 <View style={{ display: device.cardOpen ? 'flex' : 'none' }}>
-                  <CardItem>
+                  <CardItem style={{backgroundColor: '#F5F5F5'}}>
                     {colors.map(color => (
                       <Button
                         small
@@ -219,42 +224,39 @@ class Home extends React.Component {
                       />
                     ))}
                   </CardItem>
-                  <CardItem>
-                    <Left>
-                      <Button
-                        backgroundColor="#607D8B"
-                        small
-                        iconLeft
-                        borderRadius={15}
-                        onPress={() =>
-                          this.props.navigation.navigate('ColorPickerScreen', device)}
-                      >
-                        <Icon
-                          name="md-color-palette"
-                          type="ionicon"
-                          color="#ffffff"
-                        />
-                      <Text style={{marginLeft: 10}}>Color Picker</Text>
-                      </Button>
-                    </Left>
-                    <Right>
-                      <Button
-                        backgroundColor="#607D8B"
-                        small
-                        iconLeft
-                        borderRadius={15}
-                        onPress={() =>
-                          this.props.navigation.navigate('OptionScreen', device)}
-                      >
+                  <CardItem style={{backgroundColor: '#F5F5F5'}}>
+                    <Button
+                      backgroundColor="#607D8B"
+                      small
+                      style={{flex:2,marginRight: 5}}
+                      iconLeft
+                      borderRadius={15}
+                      onPress={() =>
+                        this.props.navigation.navigate('OptionScreen', device)}
+                    >
 
-                        <Icon
-                          name="ios-options"
-                          type="ionicon"
-                          color="#ffffff"
-                        />
-                      <Text style={{marginLeft: 10}}>Options</Text>
-                      </Button>
-                    </Right>
+                      <Icon
+                        name="ios-options"
+                        type="ionicon"
+                        color="#ffffff"
+                      />
+                    <Text style={{marginRight: 10}}>Advanced</Text>
+                    </Button>
+                    <Button
+                      backgroundColor="#607D8B"
+                      small
+                      iconLeft
+                      borderRadius={15}
+                      onPress={() =>
+                        this.props.navigation.navigate('ColorPickerScreen', device)}
+                    >
+                      <Icon
+                        name="md-color-palette"
+                        type="ionicon"
+                        color="#ffffff"
+                      />
+                    <Text style={{marginLeft: 10}}>Color Picker</Text>
+                    </Button>
                   </CardItem>
                 </View>
               </Card>

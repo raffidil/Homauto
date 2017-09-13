@@ -12,6 +12,17 @@ import { Icon } from 'react-native-elements';
 import Layout from '../../components/Layout';
 
 export default class OptionScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      rainbowSpeed: 100,
+      rainbowcycleSpeed: 6,
+      combineSpeed: 36,
+      fireSpeed: 20,
+      combineColor: 'ff00000000ff',
+    };
+  }
+
   props: {
     navigation: any,
   };
@@ -122,7 +133,7 @@ export default class OptionScreen extends React.Component {
               <Button
                 small
                 borderRadius={3}
-                onPress={() => fetch(`http://${device.ip}/rainbow`)}
+                onPress={() => fetch(`http://${device.ip}/rainbow${this.state.rainbowSpeed}`)}
                 backgroundColor="#00838f" >
                 <Text>Apply</Text>
               </Button>
@@ -130,7 +141,11 @@ export default class OptionScreen extends React.Component {
           </CardItem>
           <Text note style={{marginLeft: 25}}>Speed</Text>
           <CardItem>
-            <Slider value={25} maximumValue={100} minimumValue={10} step={5} style={{flex: 1}}></Slider>
+            <Slider
+              value={this.state.rainbowSpeed}
+              onValueChange={rainbowSpeed => this.setState({ rainbowSpeed })}
+              maximumValue={200} minimumValue={5}
+              step={5} style={{flex: 1}}></Slider>
           </CardItem>
         </Card>
         <Card style={{ marginTop: 0, marginLeft: 5, marginRight: 5 }}>
@@ -145,7 +160,7 @@ export default class OptionScreen extends React.Component {
               <Button
                 small
                 borderRadius={3}
-                onPress={() => fetch(`http://${device.ip}/allrainbow`)}
+                onPress={() => fetch(`http://${device.ip}/allrainbow${this.state.rainbowcycleSpeed}`)}
                 backgroundColor="#00838f" >
                 <Text>Apply</Text>
               </Button>
@@ -153,7 +168,9 @@ export default class OptionScreen extends React.Component {
           </CardItem>
           <Text note style={{marginLeft: 25}}>Speed</Text>
           <CardItem>
-            <Slider value={40} maximumValue={100} minimumValue={10} step={5} style={{flex: 1}}></Slider>
+            <Slider value={this.state.rainbowcycleSpeed}
+            onValueChange={rainbowcycleSpeed => this.setState({ rainbowcycleSpeed })}
+            maximumValue={35} minimumValue={1} step={1} style={{flex: 1}}></Slider>
           </CardItem>
         </Card>
         <Card style={{ marginTop: 0, marginLeft: 5, marginRight: 5}}>
@@ -191,10 +208,6 @@ export default class OptionScreen extends React.Component {
               />
             ))}
           </CardItem>
-          <Text note style={{marginLeft: 25}}>Speed</Text>
-          <CardItem>
-            <Slider value={35} maximumValue={100} minimumValue={10} step={5} style={{flex: 1}}></Slider>
-          </CardItem>
         </Card>
         <Card style={{ marginTop: 0, marginLeft: 5, marginRight: 5 ,height:65}}>
           <CardItem>
@@ -228,7 +241,7 @@ export default class OptionScreen extends React.Component {
               <Button
                 small
                 borderRadius={3}
-                onPress={() => fetch(`http://${device.ip}/combine2=ff00000000ff`)}
+                onPress={() => fetch(`http://${device.ip}/combine2=${this.state.combineColor}0${this.state.combineSpeed}`)}
                 backgroundColor="#00838f" >
                 <Text>Apply</Text>
               </Button>
@@ -244,8 +257,7 @@ export default class OptionScreen extends React.Component {
                 transparent
                 borderRadius={15}
                 key={color.lightColor}
-                onPress={() =>
-                fetch(`http://${device.ip}/combine2=${color.lightColor}`)}
+                onPress={ () => this.setState( { combineColor: color.lightColor } )}
                 style={{
                   marginLeft: 8,
                   flex: 6,
@@ -265,7 +277,8 @@ export default class OptionScreen extends React.Component {
           </CardItem>
           <Text note style={{marginLeft: 25}}>Speed</Text>
           <CardItem>
-            <Slider value={85} maximumValue={100} minimumValue={10} step={5} style={{flex: 1}}></Slider>
+            <Slider value={this.state.combineSpeed}
+            onValueChange={combineSpeed => this.setState({ combineSpeed })} maximumValue={99} minimumValue={2} step={2} style={{flex: 1}}></Slider>
           </CardItem>
         </Card>
         </ScrollView>

@@ -70,7 +70,7 @@ export default class SettingPage extends React.Component {
                           size={20}
                           name="signal-wifi-off"
                           type="materialicons"
-                        />
+                      />
                       </Button>
                       <Button
                         small

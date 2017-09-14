@@ -70,29 +70,29 @@ export default class OptionScreen extends React.Component {
     ];
     const CombineColors = [
       {
-        backgroundColor1: 'red',
-        backgroundColor2: 'blue',
+        backgroundColor1: '#F50057',
+        backgroundColor2: '#1565C0',
         lightColor: 'ff00000000ff',
       },
       {
-        backgroundColor1: 'red',
-        backgroundColor2: 'yellow',
+        backgroundColor1: '#E65100',
+        backgroundColor2: '#FFC400',
         lightColor: 'ff0000ffff00',
       },
       {
-        backgroundColor1: 'blue',
-        backgroundColor2: 'green',
+        backgroundColor1: '#03A9F4',
+        backgroundColor2: '#8BC34A',
         lightColor: '0000ff00ff00',
       },
       {
-        backgroundColor1: 'red',
-        backgroundColor2: 'green',
+        backgroundColor1: '#EF6C00',
+        backgroundColor2: '#64DD17',
         lightColor: 'ff000000ff00',
       },
       {
-        backgroundColor1: 'green',
-        backgroundColor2: 'yellow',
-        lightColor: '00ff00ffff00',
+        backgroundColor1: '#F06292',
+        backgroundColor2: '#90CAF9',
+        lightColor: 'F500572196F3',
       },
     ];
 
@@ -259,19 +259,23 @@ export default class OptionScreen extends React.Component {
                 key={color.lightColor}
                 onPress={ () => this.setState( { combineColor: color.lightColor } )}
                 style={{
-                  marginLeft: 8,
+                  marginLeft: 0,
                   flex: 6,
                 }}
               >
               <Icon
-                  name="controller-record"
+                  name="triangle-down"
                   type="entypo"
-                  color={color.backgroundColor1}/>
+                  size={37}
+                  color={color.backgroundColor1}
+                  />
                   <Icon
-                    style={{marginLeft:-10}}
-                      name="controller-record"
+                    style={{marginLeft:-18}}
+                      name="triangle-up"
                       type="entypo"
-                      color={color.backgroundColor2}/>
+                      size={37}
+                      color={color.backgroundColor2}
+                      />
               </Button>
             ))}
           </CardItem>
@@ -279,6 +283,9 @@ export default class OptionScreen extends React.Component {
           <CardItem>
             <Slider value={this.state.combineSpeed}
             onValueChange={combineSpeed => this.setState({ combineSpeed })} maximumValue={99} minimumValue={2} step={2} style={{flex: 1}}></Slider>
+          </CardItem>
+          <CardItem>
+
           </CardItem>
         </Card>
         </ScrollView>

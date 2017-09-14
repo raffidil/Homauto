@@ -16,6 +16,8 @@ import ColorPickerScreen from './screens/ColorPickerScreen/ColorPickerScreen';
 import OptionScreen from './screens/OptionScreen/OptionScreen';
 import Setting from './screens/Setting/Setting';
 import About from './screens/About/About';
+import Groups from './screens/Groups/Groups';
+import Notifications from './screens/Notifications/Notifications';
 import { getDevices, saveToDatabase } from './db';
 import Snackbar from 'react-native-snackbar';
 
@@ -135,6 +137,7 @@ class Home extends React.Component {
         LeftIconType="entypo"
         RightIconName="menu"
         rightMenuOnPress={() => this.modal.open()}
+        NavigationScreen="DrawerOpen"
       >
         <Modal
           backButtonClose
@@ -303,6 +306,12 @@ const ModalStack = StackNavigator(
     },
     OptionScreen: {
       screen: OptionScreen,
+    },
+    Groups: {
+      screen: Groups,
+    },
+    Notifications: {
+      screen: Notifications,
     },
   },
   { headerMode: 'none', mode: 'modal' }

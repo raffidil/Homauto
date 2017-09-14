@@ -6,9 +6,10 @@ import Modal from 'react-native-modalbox';
 import { ScrollView, TextInput,AppRegistry } from 'react-native';
 import { getDevices, saveToDatabase } from '../../db';
 import Groups from '../Groups/Groups';
+import Notifications from '../Notifications/Notifications';
 import { StackNavigator } from 'react-navigation';
 
-export default class SettingPage extends React.Component {
+export default class Setting extends React.Component {
   props: {
     navigation: any,
   };
@@ -33,7 +34,8 @@ export default class SettingPage extends React.Component {
     return (
       <Layout navigation={this.props.navigation} title="Setting" LeftIconName="dots-vertical"
       LeftIconType="material-community"
-      RightIconName="menu">
+      RightIconName="menu"
+      NavigationScreen="DrawerOpen">
         <Modal
           backButtonClose
           style={{
@@ -57,13 +59,10 @@ export default class SettingPage extends React.Component {
                       <Text>{device.name}</Text>
                     </Body>
                     <Right style={{ marginRight: -10 }}>
-                      <Button small transparent style={{ marginRight: -10 }}>
-                        <Icon size={20} name="edit" />
-                      </Button>
                       <Button
                         small
                         transparent
-                        style={{ marginRight: -10 }}
+                        style={{ marginRight: -5 }}
                         onPress={() => {fetch(`http://${device.ip}/wifireset`)}}
                         >
                         <Icon
@@ -75,7 +74,7 @@ export default class SettingPage extends React.Component {
                       <Button
                         small
                         transparent
-                        style={{ marginRight: -10 }}
+                        style={{ marginRight: 5 }}
                         onPress={() => this.removeDevice(index)}
                       >
                         <Icon size={20} name="delete" />
@@ -86,55 +85,6 @@ export default class SettingPage extends React.Component {
             </List>
           </ScrollView>
         </Modal>
-
-        <Modal
-          backButtonClose
-          style={{
-            height: 440,
-            width: 340,
-          }}
-          animationDuration={200}
-          position={'center'}
-          ref={r => (this.modal2 = r)}
-          swipeToClose={false}
-        >
-        <List>
-          <ListItem>
-            <TextInput
-              maxLength={10}
-              style={{ width: 160}}
-              clearButtonMode={'always'}
-              placeholder={'Group Name'}
-            />
-            <Button
-
-              borderRadius={5}
-              style={{
-                flex: 1,
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center'}}>
-                <Text>NEW  GROUP</Text></Button>
-          </ListItem>
-          <ScrollView>
-            {this.state.devices &&
-              this.state.devices.map((device, index) => (
-                <ListItem icon style={{ marginTop: 10 }} key={device.ip}>
-                  <Left>
-                    <Icon name="lightbulb-outline" />
-                  </Left>
-                  <Body>
-                    <Text>{device.name}</Text>
-                  </Body>
-                  <Right style={{ marginRight: 20 }}>
-                    <CheckBox color='black' checked={true} />
-                  </Right>
-                </ListItem>
-              ))}
-          </ScrollView>
-        </List>
-        </Modal>
-
         <ScrollView>
           <List>
             <ListItem onPress={() => this.modal.open()} iconLeft>
@@ -150,21 +100,16 @@ export default class SettingPage extends React.Component {
               <Text style={{marginLeft: 30}}>Groups</Text>
             </Left>
             </ListItem>
+            <ListItem onPress={() =>
+              this.props.navigation.navigate('Notifications')} iconLeft>
+              <Left>
+              <Icon name="notifications" type="materialicon" style={{marginLeft: 15}}/>
+              <Text style={{marginLeft: 30}}>Notifications</Text>
+            </Left>
+            </ListItem>
           </List>
         </ScrollView>
       </Layout>
     );
   }
 }
-
-const ModalStack = StackNavigator(
-  {
-    Setting: {
-      screen: SettingPage,
-    },
-    Groups: {
-      screen: Groups,
-    },
-  },
-  { headerMode: 'none', mode: 'modal' }
-);

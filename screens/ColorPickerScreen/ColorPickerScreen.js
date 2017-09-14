@@ -24,7 +24,8 @@ export default class ColorPickerScreen extends React.Component {
         LeftIconName="help-circle"
         LeftIconType="material-community"
         RightIconName="md-arrow-back"
-        RightIconType="ionicon">
+        RightIconType="ionicon"
+        NavigationScreen="DrawerOpen">
         <Card style={{ marginTop: 10, marginLeft: 5, marginRight: 5 }}>
           <CardItem>
             <Left>

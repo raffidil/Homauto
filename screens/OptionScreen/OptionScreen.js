@@ -35,6 +35,7 @@ export default class OptionScreen extends React.Component {
     fetch(`http://${ip}/stop`);
   };
 
+  reverse = (value, max, min) => max - value + min
 
   render() {
     const device = this.props.navigation.state.params;
@@ -103,7 +104,8 @@ export default class OptionScreen extends React.Component {
         LeftIconName="help-circle"
         LeftIconType="material-community"
         RightIconName="md-arrow-back"
-        RightIconType="ionicon">
+        RightIconType="ionicon"
+        NavigationScreen="DrawerOpen">
 
               <List>
                 <ListItem>
@@ -139,13 +141,14 @@ export default class OptionScreen extends React.Component {
               </Button>
             </Right>
           </CardItem>
-          <Text note style={{marginLeft: 25}}>Speed</Text>
           <CardItem>
+            <Text note>Slow</Text>
             <Slider
               value={this.state.rainbowSpeed}
               onValueChange={rainbowSpeed => this.setState({ rainbowSpeed })}
               maximumValue={200} minimumValue={5}
               step={5} style={{flex: 1}}></Slider>
+            <Text note>Fast</Text>
           </CardItem>
         </Card>
         <Card style={{ marginTop: 0, marginLeft: 5, marginRight: 5 }}>
@@ -166,11 +169,12 @@ export default class OptionScreen extends React.Component {
               </Button>
             </Right>
           </CardItem>
-          <Text note style={{marginLeft: 25}}>Speed</Text>
           <CardItem>
+            <Text note>Slow</Text>
             <Slider value={this.state.rainbowcycleSpeed}
             onValueChange={rainbowcycleSpeed => this.setState({ rainbowcycleSpeed })}
-            maximumValue={35} minimumValue={1} step={1} style={{flex: 1}}></Slider>
+            maximumValue={25} minimumValue={1} step={1} style={{flex: 1}}></Slider>
+          <Text note>Fast</Text>
           </CardItem>
         </Card>
         <Card style={{ marginTop: 0, marginLeft: 5, marginRight: 5}}>
@@ -254,13 +258,14 @@ export default class OptionScreen extends React.Component {
               <Button
                 iconLeft
                 small
-                transparent
+                backgroundColor="#FFFFFF"
                 borderRadius={15}
                 key={color.lightColor}
                 onPress={ () => this.setState( { combineColor: color.lightColor } )}
                 style={{
-                  marginLeft: 0,
+                  marginLeft: 5,
                   flex: 6,
+                  justifyContent: 'center'
                 }}
               >
               <Icon
@@ -270,7 +275,7 @@ export default class OptionScreen extends React.Component {
                   color={color.backgroundColor1}
                   />
                   <Icon
-                    style={{marginLeft:-18}}
+                    style={{marginLeft:-15}}
                       name="triangle-up"
                       type="entypo"
                       size={37}
@@ -279,10 +284,11 @@ export default class OptionScreen extends React.Component {
               </Button>
             ))}
           </CardItem>
-          <Text note style={{marginLeft: 25}}>Speed</Text>
           <CardItem>
+            <Text note>Slow</Text>
             <Slider value={this.state.combineSpeed}
             onValueChange={combineSpeed => this.setState({ combineSpeed })} maximumValue={99} minimumValue={2} step={2} style={{flex: 1}}></Slider>
+          <Text note>Fast</Text>
           </CardItem>
           <CardItem>
 

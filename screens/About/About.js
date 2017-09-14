@@ -24,6 +24,7 @@ export default class AboutPage extends React.Component {
         LeftIconName="dots-vertical"
         LeftIconType="material-community"
         RightIconName="menu"
+        NavigationScreen="DrawerOpen"
          >
         <Text>About</Text>
       </Layout>

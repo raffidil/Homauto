@@ -3,10 +3,11 @@ import Layout from '../../components/Layout';
 import { List, ListItem, Text, Right, Left, Body, Button, CheckBox } from 'native-base';
 import { Icon } from 'react-native-elements';
 import Modal from 'react-native-modalbox';
-import { ScrollView, TextInput,AppRegistry } from 'react-native';
+import { ScrollView, TextInput,AppRegistry, View } from 'react-native';
 import { getDevices, saveToDatabase } from '../../db';
 import Groups from '../Groups/Groups';
 import Notifications from '../Notifications/Notifications';
+import DefaultColor from '../DefaultColor/DefaultColor';
 import { StackNavigator } from 'react-navigation';
 
 export default class Setting extends React.Component {
@@ -29,6 +30,11 @@ export default class Setting extends React.Component {
   componentWillMount() {
     getDevices().then(devices => this.setState({ devices }));
   }
+
+  changeDefaultColor = (color, ip) => {
+    const url = `http://${ip}/default=${color}`;
+    fetch(url);
+  };
 
   render() {
     return (
@@ -85,6 +91,7 @@ export default class Setting extends React.Component {
             </List>
           </ScrollView>
         </Modal>
+
         <ScrollView>
           <List>
             <ListItem onPress={() => this.modal.open()} iconLeft>
@@ -107,6 +114,14 @@ export default class Setting extends React.Component {
               <Text style={{marginLeft: 30}}>Notifications</Text>
             </Left>
             </ListItem>
+            <ListItem onPress={() =>
+              this.props.navigation.navigate('DefaultColor')} iconLeft>
+              <Left>
+              <Icon name="lightbulb-on" type="material-community" style={{marginLeft: 15}}/>
+              <Text style={{marginLeft: 30}}>Light Default Color</Text>
+            </Left>
+            </ListItem>
+
           </List>
         </ScrollView>
       </Layout>

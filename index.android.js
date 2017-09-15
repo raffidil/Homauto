@@ -13,11 +13,13 @@ import { Icon } from 'react-native-elements';
 import Layout from './components/Layout';
 import DrawerConfig from './components/DrawerConfig';
 import ColorPickerScreen from './screens/ColorPickerScreen/ColorPickerScreen';
+import DefaultColorPickerScreen from './screens/DefaultColorPickerScreen/DefaultColorPickerScreen';
 import OptionScreen from './screens/OptionScreen/OptionScreen';
 import Setting from './screens/Setting/Setting';
 import About from './screens/About/About';
 import Groups from './screens/Groups/Groups';
 import Notifications from './screens/Notifications/Notifications';
+import DefaultColor from './screens/DefaultColor/DefaultColor';
 import { getDevices, saveToDatabase } from './db';
 import Snackbar from 'react-native-snackbar';
 
@@ -304,6 +306,9 @@ const ModalStack = StackNavigator(
     ColorPickerScreen: {
       screen: ColorPickerScreen,
     },
+    DefaultColorPickerScreen: {
+      screen: DefaultColorPickerScreen,
+    },
     OptionScreen: {
       screen: OptionScreen,
     },
@@ -312,6 +317,9 @@ const ModalStack = StackNavigator(
     },
     Notifications: {
       screen: Notifications,
+    },
+    DefaultColor: {
+      screen: DefaultColor,
     },
   },
   { headerMode: 'none', mode: 'modal' }

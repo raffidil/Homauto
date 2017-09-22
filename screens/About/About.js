@@ -10,9 +10,9 @@ export default class AboutPage extends React.Component {
   }
 
   static navigationOptions = {
-    drawerLabel: 'About',
+    drawerLabel: 'Help',
     drawerIcon: () => (
-      <Icon name="info"/>
+      <Icon name="help"/>
     ),
   };
 
@@ -20,7 +20,7 @@ export default class AboutPage extends React.Component {
     return (
       <Layout
         navigation={this.props.navigation}
-        title="About"
+        title="Help"
         RightMenuDisable={true}
         RightIconName="menu"
         NavigationScreen="DrawerOpen"

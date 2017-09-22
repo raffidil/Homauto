@@ -270,16 +270,6 @@ export default class OptionScreen extends React.Component {
                 <Text style={{fontSize: 20}}>Combine Color</Text>
               </View>
             </Left>
-            <Right>
-              <Button
-                small
-                borderRadius={3}
-                onPress={() => fetch(`http://${device.ip}/combine2=${this.state.combineColor}0${this.state.combineSpeed}`)}
-                backgroundColor="#00838f" >
-                <Text>Apply</Text>
-              </Button>
-
-            </Right>
           </CardItem>
           <Text note style={{marginLeft: 25}}>Color</Text>
           <CardItem>
@@ -290,7 +280,7 @@ export default class OptionScreen extends React.Component {
                 backgroundColor="#FFFFFF"
                 borderRadius={15}
                 key={color.lightColor}
-                onPress={ () => this.setState( { combineColor: color.lightColor } )}
+                onPress={ () => this.setState( { combineColor: color.lightColor }, () => fetch(`http://${device.ip}/combine2=${this.state.combineColor}0${this.state.combineSpeed}`) )}
                 style={{
                   marginLeft: 5,
                   flex: 6,
@@ -320,7 +310,7 @@ export default class OptionScreen extends React.Component {
                 small
                 borderRadius={15}
                 key={speed.label}
-                onPress={() => this.setState({ combineSpeed: speed.combineSpeed })}
+                onPress={() => this.setState({ combineSpeed: speed.combineSpeed },() => fetch(`http://${device.ip}/combine2=${this.state.combineColor}0${this.state.combineSpeed}`))}
                 style={{
                   marginLeft: 8,
                   flex: 6,

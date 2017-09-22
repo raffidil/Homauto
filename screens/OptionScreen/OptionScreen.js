@@ -15,10 +15,7 @@ export default class OptionScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rainbowSpeed: 100,
-      rainbowcycleSpeed: 6,
-      combineSpeed: 36,
-      fireSpeed: 20,
+      combineSpeed: 75,
       combineColor: 'ff00000000ff',
     };
   }
@@ -39,6 +36,39 @@ export default class OptionScreen extends React.Component {
 
   render() {
     const device = this.props.navigation.state.params;
+    const Speeds = [
+      {
+        label: '1',
+        rainbow: 10,
+        allrainbow: 2,
+        combineSpeed: 15,
+      },
+      {
+        label: '2',
+        rainbow: 25,
+        allrainbow: 7,
+        combineSpeed: 35,
+      },
+      {
+        label: '3',
+        rainbow: 70,
+        allrainbow: 13,
+        combineSpeed: 55,
+      },
+      {
+        label: '4',
+        rainbow: 110,
+        allrainbow: 20,
+        combineSpeed: 75,
+      },
+      {
+        label: '5',
+        rainbow: 200,
+        allrainbow: 30,
+        combineSpeed: 99,
+      },
+
+    ];
     const FireColors = [
       {
         backgroundColor: '#BA68C8',
@@ -101,8 +131,7 @@ export default class OptionScreen extends React.Component {
       <Layout
         navigation={this.props.navigation}
         title="Option"
-        LeftIconName="help-circle"
-        LeftIconType="material-community"
+        RightMenuDisable={true}
         RightIconName="md-arrow-back"
         RightIconType="ionicon"
         NavigationScreen="DrawerOpen">
@@ -131,24 +160,23 @@ export default class OptionScreen extends React.Component {
                 <Text style={{fontSize: 20}}>Rainbow</Text>
               </View>
             </Left>
-            <Right>
+          </CardItem>
+          <Text note style={{marginLeft: 25}}>Speed</Text>
+          <CardItem>
+            {Speeds.map(speed => (
               <Button
                 small
-                borderRadius={3}
-                onPress={() => fetch(`http://${device.ip}/rainbow${this.state.rainbowSpeed}`)}
-                backgroundColor="#00838f" >
-                <Text>Apply</Text>
-              </Button>
-            </Right>
-          </CardItem>
-          <CardItem>
-            <Text note>Slow</Text>
-            <Slider
-              value={this.state.rainbowSpeed}
-              onValueChange={rainbowSpeed => this.setState({ rainbowSpeed })}
-              maximumValue={200} minimumValue={5}
-              step={5} style={{flex: 1}}></Slider>
-            <Text note>Fast</Text>
+                borderRadius={15}
+                key={speed.label}
+                onPress={() => fetch(`http://${device.ip}/rainbow${speed.rainbow}`)}
+                style={{
+                  marginLeft: 8,
+                  flex: 6,
+                  justifyContent: 'center',
+                  backgroundColor: '#607D8B'
+                }}
+              ><Text>{speed.label}</Text></Button>
+            ))}
           </CardItem>
         </Card>
         <Card style={{ marginTop: 0, marginLeft: 5, marginRight: 5 }}>
@@ -159,22 +187,23 @@ export default class OptionScreen extends React.Component {
                 <Text style={{fontSize: 20}}>Rainbow Cycle</Text>
               </View>
             </Left>
-            <Right>
+          </CardItem>
+          <Text note style={{marginLeft: 25}}>Speed</Text>
+          <CardItem>
+            {Speeds.map(speed => (
               <Button
                 small
-                borderRadius={3}
-                onPress={() => fetch(`http://${device.ip}/allrainbow${this.state.rainbowcycleSpeed}`)}
-                backgroundColor="#00838f" >
-                <Text>Apply</Text>
-              </Button>
-            </Right>
-          </CardItem>
-          <CardItem>
-            <Text note>Slow</Text>
-            <Slider value={this.state.rainbowcycleSpeed}
-            onValueChange={rainbowcycleSpeed => this.setState({ rainbowcycleSpeed })}
-            maximumValue={25} minimumValue={1} step={1} style={{flex: 1}}></Slider>
-          <Text note>Fast</Text>
+                borderRadius={15}
+                key={speed.label}
+                onPress={() => fetch(`http://${device.ip}/allrainbow${speed.allrainbow}`)}
+                style={{
+                  marginLeft: 8,
+                  flex: 6,
+                  justifyContent: 'center',
+                  backgroundColor: '#607D8B'
+                }}
+              ><Text>{speed.label}</Text></Button>
+            ))}
           </CardItem>
         </Card>
         <Card style={{ marginTop: 0, marginLeft: 5, marginRight: 5}}>
@@ -213,8 +242,8 @@ export default class OptionScreen extends React.Component {
             ))}
           </CardItem>
         </Card>
-        <Card style={{ marginTop: 0, marginLeft: 5, marginRight: 5 ,height:65}}>
-          <CardItem>
+        <Card style={{ marginTop: 0, marginLeft: 5, marginRight: 5 ,height:67}}>
+          <CardItem style={{marginTop: 5}}>
             <Left>
               <Icon name="drink" type="entypo"/>
               <View style={{marginLeft: 10}}>
@@ -284,14 +313,22 @@ export default class OptionScreen extends React.Component {
               </Button>
             ))}
           </CardItem>
+          <Text note style={{marginLeft: 25}}>Speed</Text>
           <CardItem>
-            <Text note>Slow</Text>
-            <Slider value={this.state.combineSpeed}
-            onValueChange={combineSpeed => this.setState({ combineSpeed })} maximumValue={99} minimumValue={2} step={2} style={{flex: 1}}></Slider>
-          <Text note>Fast</Text>
-          </CardItem>
-          <CardItem>
-
+            {Speeds.map(speed => (
+              <Button
+                small
+                borderRadius={15}
+                key={speed.label}
+                onPress={() => this.setState({ combineSpeed: speed.combineSpeed })}
+                style={{
+                  marginLeft: 8,
+                  flex: 6,
+                  justifyContent: 'center',
+                  backgroundColor: '#607D8B'
+                }}
+              ><Text>{speed.label}</Text></Button>
+            ))}
           </CardItem>
         </Card>
         </ScrollView>

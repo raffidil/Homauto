@@ -135,6 +135,7 @@ class Home extends React.Component {
       <Layout
         navigation={this.props.navigation}
         title="Home"
+        RightMenuDisable={false}
         LeftIconName="add-to-list"
         LeftIconType="entypo"
         RightIconName="menu"

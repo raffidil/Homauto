@@ -26,12 +26,39 @@ export default class Groups extends React.Component {
 
     return (
       <Layout navigation={this.props.navigation} title="Notifications"
-              LeftIconName="help-circle"
-              LeftIconType="material-community"
+              RightMenuDisable={true}
               RightIconName="md-arrow-back"
               RightIconType="ionicon"
               NavigationScreen="Setting">
-              
+              <ScrollView>
+                <List>
+                  {this.state.devices &&
+                    this.state.devices.map((device, index) => (
+                      <ListItem icon style={{ marginTop: 10 }} key={device.ip}>
+                        <Left>
+                          <Icon name="lightbulb-outline" />
+                        </Left>
+                        <Body>
+                          <Text>{device.name}</Text>
+                        </Body>
+                        <Right style={{ marginRight: -10 }}>
+                          <Button
+                            small
+                            transparent
+                            style={{ marginRight: -5 }}
+                            >
+                            <Icon
+                              size={20}
+                              name="notification"
+                              type="entypo"
+                          />
+                          </Button>
+                        </Right>
+                      </ListItem>
+                    ))}
+                </List>
+              </ScrollView>
+
       </Layout>
     );
   }

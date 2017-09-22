@@ -21,8 +21,7 @@ export default class AboutPage extends React.Component {
       <Layout
         navigation={this.props.navigation}
         title="About"
-        LeftIconName="dots-vertical"
-        LeftIconType="material-community"
+        RightMenuDisable={true}
         RightIconName="menu"
         NavigationScreen="DrawerOpen"
          >

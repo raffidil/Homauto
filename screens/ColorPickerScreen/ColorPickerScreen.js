@@ -21,8 +21,7 @@ export default class ColorPickerScreen extends React.Component {
       <Layout
         navigation={this.props.navigation}
         title="Color Picker"
-        LeftIconName="help-circle"
-        LeftIconType="material-community"
+        RightMenuDisable={true}
         RightIconName="md-arrow-back"
         RightIconType="ionicon"
         NavigationScreen="DrawerOpen">

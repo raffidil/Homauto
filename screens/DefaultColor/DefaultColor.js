@@ -25,8 +25,7 @@ export default class DefaultColor extends React.Component {
 
     return (
       <Layout navigation={this.props.navigation} title="Default Color"
-              LeftIconName="help-circle"
-              LeftIconType="material-community"
+              RightMenuDisable={true}
               RightIconName="md-arrow-back"
               RightIconType="ionicon"
               NavigationScreen="Setting">
@@ -34,7 +33,9 @@ export default class DefaultColor extends React.Component {
                   <List>
                     {this.state.devices &&
                       this.state.devices.map((device, index) => (
-                        <ListItem icon style={{ marginTop: 10 }} key={device.ip}>
+                        <ListItem icon style={{ marginTop: 10 }} key={device.ip}
+                          onPress={() =>
+                            this.props.navigation.navigate('DefaultColorPickerScreen', device)}>
                           <Left>
                             <Icon name="lightbulb-outline" />
                           </Left>

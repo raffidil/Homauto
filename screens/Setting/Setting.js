@@ -38,8 +38,7 @@ export default class Setting extends React.Component {
 
   render() {
     return (
-      <Layout navigation={this.props.navigation} title="Setting" LeftIconName="dots-vertical"
-      LeftIconType="material-community"
+      <Layout navigation={this.props.navigation} title="Setting" RightMenuDisable={true}
       RightIconName="menu"
       NavigationScreen="DrawerOpen">
         <Modal

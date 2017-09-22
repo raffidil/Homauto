@@ -44,8 +44,7 @@ export default class Groups extends React.Component {
 
     return (
       <Layout navigation={this.props.navigation} title="Groups"
-              LeftIconName="help-circle"
-              LeftIconType="material-community"
+              RightMenuDisable={true}
               RightIconName="md-arrow-back"
               RightIconType="ionicon"
               NavigationScreen="Setting">

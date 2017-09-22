@@ -25,6 +25,7 @@ export default class Layout extends React.Component {
     RightIconName: string,
     RightIconType: string,
     NavigationScreen: string,
+    RightMenuDisable: bool,
     rightMenuOnPress: () => void,
   };
 
@@ -46,7 +47,7 @@ export default class Layout extends React.Component {
             </Title>
           </Body>
           <Right>
-            <Button transparent onPress={this.props.rightMenuOnPress} >
+            <Button disabled={this.props.RightMenuDisable} transparent onPress={this.props.rightMenuOnPress} >
               <Icon name={this.props.LeftIconName} type={this.props.LeftIconType} color="#ffffff"/>
             </Button>
           </Right>

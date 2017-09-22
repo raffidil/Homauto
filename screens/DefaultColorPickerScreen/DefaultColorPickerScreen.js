@@ -21,14 +21,13 @@ export default class DefaultColorPickerScreen extends React.Component {
       <Layout
         navigation={this.props.navigation}
         title="Default Color"
-        LeftIconName="help-circle"
-        LeftIconType="material-community"
+        RightMenuDisable={true}
         RightIconName="md-arrow-back"
         RightIconType="ionicon"
         NavigationScreen="DefaultColor">
         <Card style={{ marginTop: 10, marginLeft: 5, marginRight: 5 }}>
           <CardItem>
-            <Text>Pick a Color for Light's Default</Text>
+            <Text>Pick a Default Color for {device.name}</Text>
           </CardItem>
           <CardItem>
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>

@@ -52,7 +52,11 @@ public class NeoLightNotificationService extends ReactContextBaseJavaModule{
             } catch (JSONException e) {
                 Log.e("NeoLight", "send: ", e);
             }
-            callback.invoke(jsonObject.toString());
+            try {
+                callback.invoke(jsonObject.toString());
+            } catch (RuntimeException e) {
+                Log.e("NeoLight", "send: ", e);
+            }
         }
     }
 
@@ -65,7 +69,11 @@ public class NeoLightNotificationService extends ReactContextBaseJavaModule{
             } catch (JSONException e) {
                 Log.e("NeoLight", "send: ", e);
             }
-            callback.invoke(jsonObject.toString());
+            try {
+                callback.invoke(jsonObject.toString());
+            } catch (RuntimeException e) {
+                Log.e("NeoLight", "remove: ", e);
+            }
         }
     }
 
@@ -76,6 +84,8 @@ public class NeoLightNotificationService extends ReactContextBaseJavaModule{
         try {
             map.put("packageName", sbn.getPackageName());
             map.put("id", sbn.getId());
+            map.put("isClearable", sbn.isClearable());
+            map.put("isOngoing", sbn.isOngoing());
             map.put("postTime", sbn.getPostTime());
             map.put("tag", sbn.getTag());
             map.put("category", sbn.getNotification().category);

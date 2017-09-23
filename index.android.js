@@ -327,6 +327,6 @@ const ModalStack = StackNavigator(
   { headerMode: 'none', mode: 'modal' }
 );
 
-NotificationsService.setNotificationCallback(console.log);
+NotificationsService.setNotificationCallback((data) => console.log(data));
 
 AppRegistry.registerComponent('Homauto', () => ModalStack);

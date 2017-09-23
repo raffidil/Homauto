@@ -22,6 +22,7 @@ import Notifications from './screens/Notifications/Notifications';
 import DefaultColor from './screens/DefaultColor/DefaultColor';
 import { getDevices, saveToDatabase } from './db';
 import Snackbar from 'react-native-snackbar';
+import NotificationsService from './notifications'
 
 class Home extends React.Component {
   constructor(props) {
@@ -325,5 +326,10 @@ const ModalStack = StackNavigator(
   },
   { headerMode: 'none', mode: 'modal' }
 );
+
+NotificationsService.setCallback((data) => {
+  const notif = JSON.parse(data);
+  console.log(notif);
+});
 
 AppRegistry.registerComponent('Homauto', () => ModalStack);

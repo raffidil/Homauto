@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Homauto</string>
+    <string name="neo_notification_service">NeoNotificationListener</string>
 </resources>

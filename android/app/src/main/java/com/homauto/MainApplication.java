@@ -28,8 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
           new MainReactPackage(),
             new SnackbarPackage(),
             new VectorIconsPackage(),
-            new ReactMaterialKitPackage(),
-              new NotificationServiceReactPackage()
+            new ReactMaterialKitPackage()
       );
     }
   };

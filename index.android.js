@@ -327,6 +327,6 @@ const ModalStack = StackNavigator(
   { headerMode: 'none', mode: 'modal' }
 );
 
-NotificationsService.setNotificationCallback((data) => console.log(data));
 
+AppRegistry.registerHeadlessTask('NeoLightNotificationListener', () => NotificationsService);
 AppRegistry.registerComponent('Homauto', () => ModalStack);

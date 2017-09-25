@@ -8,7 +8,7 @@ import { getDevices, saveToDatabase } from '../../db';
 import Snackbar from 'react-native-snackbar';
 
 
-export default class Groups extends React.Component {
+export default class Notifications extends React.Component {
   props: {
     navigation: any,
   };

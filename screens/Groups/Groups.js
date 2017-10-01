@@ -62,6 +62,7 @@ export default class Groups extends React.Component {
 
   addGroup = () => {
     const { groups, tempGroup } = this.state;
+    tempGroup.cardOpen = false;
     this.setState({ groups: groups.concat(tempGroup) });
     this.modal2.close();
     saveToDatabase({ groups: groups.concat(tempGroup) });
@@ -198,7 +199,7 @@ export default class Groups extends React.Component {
               groups.map((group, index) => (
                 <ListItem icon style={{ marginTop: 10 }} key={group.name}>
                   <Left>
-                    <Icon name="lightbulb-outline" />
+                    <Icon name="group-work" type="materialicon" />
                   </Left>
                   <Body>
                     <Text>{group.name}</Text>

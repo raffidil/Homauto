@@ -1,13 +1,16 @@
 import React from 'react';
+import { ScrollView, View } from 'react-native';
 import {
-  TouchableHighlight,
-  AppRegistry,
-  ScrollView,
-  TextInput,
-  View,
-  Slider,
-} from 'react-native';
-import { Card, CardItem, Left, Right, Body, Text , Button,List, ListItem} from 'native-base';
+  Card,
+  CardItem,
+  Left,
+  Right,
+  Body,
+  Text,
+  Button,
+  List,
+  ListItem,
+} from 'native-base';
 import { Icon } from 'react-native-elements';
 import Layout from '../../components/Layout';
 
@@ -24,15 +27,13 @@ export default class OptionScreen extends React.Component {
     navigation: any,
   };
 
-  changeEffect = (effect, ip) => {
-    const url = `http://${ip}/${effect}`;
-    fetch(url);
+  apply = (groupOrDevice, command) => {
+    if (groupOrDevice.type === 'device') {
+      fetch(`http://${groupOrDevice.ip}${command}`);
+    } else if (groupOrDevice.type === 'group') {
+      groupOrDevice.ips.forEach(ip => fetch(`http://${ip}${command}`));
+    }
   };
-  stop = ip => {
-    fetch(`http://${ip}/stop`);
-  };
-
-  reverse = (value, max, min) => max - value + min
 
   render() {
     const device = this.props.navigation.state.params;
@@ -67,7 +68,6 @@ export default class OptionScreen extends React.Component {
         allrainbow: 30,
         combineSpeed: 99,
       },
-
     ];
     const FireColors = [
       {
@@ -134,193 +134,233 @@ export default class OptionScreen extends React.Component {
         RightMenuDisable={true}
         RightIconName="md-arrow-back"
         RightIconType="ionicon"
-        NavigationScreen="DrawerOpen">
-
-              <List>
-                <ListItem>
-                  <Icon name="lightbulb-outline" />
-                  <Left>
-                    <Body>
-                      <Text>{device.name}</Text>
-                      <Text note>Light</Text>
-                    </Body>
-                  </Left>
-                  <Right>
-              <Button transparent onPress={() => this.stop(device.ip)}>
+        NavigationScreen="DrawerOpen"
+      >
+        <List>
+          <ListItem>
+            {device.type === 'device' && <Icon name="lightbulb-outline" />}
+            {device.type === 'group' && (
+              <Icon name="group-work" type="materialicon" />
+            )}
+            <Left>
+              <Body>
+                <Text>{device.name}</Text>
+                <Text note>
+                  {device.type === 'device' && 'Light'}
+                  {device.type === 'group' && 'Group'}
+                </Text>
+              </Body>
+            </Left>
+            <Right>
+              <Button transparent onPress={() => this.apply(device, '/stop')}>
                 <Icon color="gray" name="power-settings-new" />
-              </Button></Right>
-              </ListItem>
-              </List>
+              </Button>
+            </Right>
+          </ListItem>
+        </List>
         <ScrollView>
-        <Card style={{ marginTop: 0, marginLeft: 5, marginRight: 5}}>
-          <CardItem>
-            <Left>
-              <Icon name="rainbow" type="entypo" />
-              <View style={{marginLeft: 10}}>
-                <Text style={{fontSize: 20}}>Rainbow</Text>
-              </View>
-            </Left>
-          </CardItem>
-          <Text note style={{marginLeft: 25}}>Speed</Text>
-          <CardItem>
-            {Speeds.map(speed => (
-              <Button
-                small
-                borderRadius={15}
-                key={speed.label}
-                onPress={() => fetch(`http://${device.ip}/rainbow${speed.rainbow}`)}
-                style={{
-                  marginLeft: 8,
-                  flex: 6,
-                  justifyContent: 'center',
-                  backgroundColor: '#607D8B'
-                }}
-              ><Text>{speed.label}</Text></Button>
-            ))}
-          </CardItem>
-        </Card>
-        <Card style={{ marginTop: 0, marginLeft: 5, marginRight: 5 }}>
-          <CardItem>
-            <Left>
-              <Icon name="yelp" type="entypo"/>
-              <View style={{marginLeft: 10}}>
-                <Text style={{fontSize: 20}}>Rainbow Cycle</Text>
-              </View>
-            </Left>
-          </CardItem>
-          <Text note style={{marginLeft: 25}}>Speed</Text>
-          <CardItem>
-            {Speeds.map(speed => (
-              <Button
-                small
-                borderRadius={15}
-                key={speed.label}
-                onPress={() => fetch(`http://${device.ip}/allrainbow${speed.allrainbow}`)}
-                style={{
-                  marginLeft: 8,
-                  flex: 6,
-                  justifyContent: 'center',
-                  backgroundColor: '#607D8B'
-                }}
-              ><Text>{speed.label}</Text></Button>
-            ))}
-          </CardItem>
-        </Card>
-        <Card style={{ marginTop: 0, marginLeft: 5, marginRight: 5}}>
-          <CardItem>
-            <Left>
-              <Icon name="ios-bonfire" type="ionicon"/>
-              <View style={{marginLeft: 10}}>
-                <Text style={{fontSize: 20}}>Fire Flame</Text>
-              </View>
-            </Left>
-            <Right>
-              <Button
-                small
-                borderRadius={3}
-                onPress={() => fetch(`http://${device.ip}/fire`)}
-                backgroundColor="#00838f" >
-                <Text>Apply</Text>
-              </Button>
-            </Right>
-          </CardItem>
-          <Text note style={{marginLeft: 25}}>Color</Text>
-          <CardItem>
-            {FireColors.map(color => (
-              <Button
-                small
-                borderRadius={15}
-                key={color.backgroundColor}
-                onPress={() =>
-                  this.changeColor(color.lightColor, device.ip)}
-                style={{
-                  backgroundColor: color.backgroundColor,
-                  marginLeft: 8,
-                  flex: 6,
-                }}
-              />
-            ))}
-          </CardItem>
-        </Card>
-        <Card style={{ marginTop: 0, marginLeft: 5, marginRight: 5 ,height:67}}>
-          <CardItem style={{marginTop: 5}}>
-            <Left>
-              <Icon name="drink" type="entypo"/>
-              <View style={{marginLeft: 10}}>
-                <Text style={{fontSize: 20}}>Dance Candle</Text>
-              </View>
-            </Left>
-            <Right>
-              <Button
-                small
-                borderRadius={3}
-                onPress={() => fetch(`http://${device.ip}/jackcandle`)}
-                backgroundColor="#00838f" >
-                <Text>Apply</Text>
-              </Button>
-
-            </Right>
-          </CardItem>
-        </Card>
-        <Card style={{ marginTop: 0, marginLeft: 5, marginRight: 5  }}>
-          <CardItem>
-            <Left>
-              <Icon name="cycle" type="entypo"/>
-              <View style={{marginLeft: 10}}>
-                <Text style={{fontSize: 20}}>Combine Color</Text>
-              </View>
-            </Left>
-          </CardItem>
-          <Text note style={{marginLeft: 25}}>Color</Text>
-          <CardItem>
-            {CombineColors.map(color => (
-              <Button
-                iconLeft
-                small
-                backgroundColor="#FFFFFF"
-                borderRadius={15}
-                key={color.lightColor}
-                onPress={ () => this.setState( { combineColor: color.lightColor }, () => fetch(`http://${device.ip}/combine2=${this.state.combineColor}0${this.state.combineSpeed}`) )}
-                style={{
-                  marginLeft: 5,
-                  flex: 6,
-                  justifyContent: 'center'
-                }}
-              >
-              <Icon
-                  name="triangle-down"
-                  type="entypo"
-                  size={37}
-                  color={color.backgroundColor1}
+          <Card style={{ marginTop: 0, marginLeft: 5, marginRight: 5 }}>
+            <CardItem>
+              <Left>
+                <Icon name="rainbow" type="entypo" />
+                <View style={{ marginLeft: 10 }}>
+                  <Text style={{ fontSize: 20 }}>Rainbow</Text>
+                </View>
+              </Left>
+            </CardItem>
+            <Text note style={{ marginLeft: 25 }}>
+              Speed
+            </Text>
+            <CardItem>
+              {Speeds.map(speed => (
+                <Button
+                  small
+                  borderRadius={15}
+                  key={speed.label}
+                  onPress={() => this.apply(device, `/rainbow${speed.rainbow}`)}
+                  style={{
+                    marginLeft: 8,
+                    flex: 6,
+                    justifyContent: 'center',
+                    backgroundColor: '#607D8B',
+                  }}
+                >
+                  <Text>{speed.label}</Text>
+                </Button>
+              ))}
+            </CardItem>
+          </Card>
+          <Card style={{ marginTop: 0, marginLeft: 5, marginRight: 5 }}>
+            <CardItem>
+              <Left>
+                <Icon name="yelp" type="entypo" />
+                <View style={{ marginLeft: 10 }}>
+                  <Text style={{ fontSize: 20 }}>Rainbow Cycle</Text>
+                </View>
+              </Left>
+            </CardItem>
+            <Text note style={{ marginLeft: 25 }}>
+              Speed
+            </Text>
+            <CardItem>
+              {Speeds.map(speed => (
+                <Button
+                  small
+                  borderRadius={15}
+                  key={speed.label}
+                  onPress={() =>
+                    this.apply(device, `/allrainbow${speed.allrainbow}`)}
+                  style={{
+                    marginLeft: 8,
+                    flex: 6,
+                    justifyContent: 'center',
+                    backgroundColor: '#607D8B',
+                  }}
+                >
+                  <Text>{speed.label}</Text>
+                </Button>
+              ))}
+            </CardItem>
+          </Card>
+          <Card style={{ marginTop: 0, marginLeft: 5, marginRight: 5 }}>
+            <CardItem>
+              <Left>
+                <Icon name="ios-bonfire" type="ionicon" />
+                <View style={{ marginLeft: 10 }}>
+                  <Text style={{ fontSize: 20 }}>Fire Flame</Text>
+                </View>
+              </Left>
+              <Right>
+                <Button
+                  small
+                  borderRadius={3}
+                  onPress={() => this.apply(device, `/fire`)}
+                  backgroundColor="#00838f"
+                >
+                  <Text>Apply</Text>
+                </Button>
+              </Right>
+            </CardItem>
+            <Text note style={{ marginLeft: 25 }}>
+              Color
+            </Text>
+            <CardItem>
+              {FireColors.map(color => (
+                <Button
+                  small
+                  borderRadius={15}
+                  key={color.backgroundColor}
+                  onPress={() => this.changeColor(color.lightColor, device.ip)}
+                  style={{
+                    backgroundColor: color.backgroundColor,
+                    marginLeft: 8,
+                    flex: 6,
+                  }}
+                />
+              ))}
+            </CardItem>
+          </Card>
+          <Card
+            style={{ marginTop: 0, marginLeft: 5, marginRight: 5, height: 67 }}
+          >
+            <CardItem style={{ marginTop: 5 }}>
+              <Left>
+                <Icon name="drink" type="entypo" />
+                <View style={{ marginLeft: 10 }}>
+                  <Text style={{ fontSize: 20 }}>Dance Candle</Text>
+                </View>
+              </Left>
+              <Right>
+                <Button
+                  small
+                  borderRadius={3}
+                  onPress={() => this.apply(device, `/jackcandle`)}
+                  backgroundColor="#00838f"
+                >
+                  <Text>Apply</Text>
+                </Button>
+              </Right>
+            </CardItem>
+          </Card>
+          <Card style={{ marginTop: 0, marginLeft: 5, marginRight: 5 }}>
+            <CardItem>
+              <Left>
+                <Icon name="cycle" type="entypo" />
+                <View style={{ marginLeft: 10 }}>
+                  <Text style={{ fontSize: 20 }}>Combine Color</Text>
+                </View>
+              </Left>
+            </CardItem>
+            <Text note style={{ marginLeft: 25 }}>
+              Color
+            </Text>
+            <CardItem>
+              {CombineColors.map(color => (
+                <Button
+                  iconLeft
+                  small
+                  backgroundColor="#FFFFFF"
+                  borderRadius={15}
+                  key={color.lightColor}
+                  onPress={() =>
+                    this.setState({ combineColor: color.lightColor }, () =>
+                      this.apply(
+                        device,
+                        `/combine2=${this.state.combineColor}0${this.state
+                          .combineSpeed}`
+                      )
+                    )}
+                  style={{
+                    marginLeft: 5,
+                    flex: 6,
+                    justifyContent: 'center',
+                  }}
+                >
+                  <Icon
+                    name="triangle-down"
+                    type="entypo"
+                    size={37}
+                    color={color.backgroundColor1}
                   />
                   <Icon
-                    style={{marginLeft:-15}}
-                      name="triangle-up"
-                      type="entypo"
-                      size={37}
-                      color={color.backgroundColor2}
-                      />
-              </Button>
-            ))}
-          </CardItem>
-          <Text note style={{marginLeft: 25}}>Speed</Text>
-          <CardItem>
-            {Speeds.map(speed => (
-              <Button
-                small
-                borderRadius={15}
-                key={speed.label}
-                onPress={() => this.setState({ combineSpeed: speed.combineSpeed },() => fetch(`http://${device.ip}/combine2=${this.state.combineColor}0${this.state.combineSpeed}`))}
-                style={{
-                  marginLeft: 8,
-                  flex: 6,
-                  justifyContent: 'center',
-                  backgroundColor: '#607D8B'
-                }}
-              ><Text>{speed.label}</Text></Button>
-            ))}
-          </CardItem>
-        </Card>
+                    style={{ marginLeft: -15 }}
+                    name="triangle-up"
+                    type="entypo"
+                    size={37}
+                    color={color.backgroundColor2}
+                  />
+                </Button>
+              ))}
+            </CardItem>
+            <Text note style={{ marginLeft: 25 }}>
+              Speed
+            </Text>
+            <CardItem>
+              {Speeds.map(speed => (
+                <Button
+                  small
+                  borderRadius={15}
+                  key={speed.label}
+                  onPress={() =>
+                    this.setState({ combineSpeed: speed.combineSpeed }, () =>
+                      this.apply(
+                        device,
+                        `/combine2=${this.state.combineColor}0${this.state
+                          .combineSpeed}`
+                      )
+                    )}
+                  style={{
+                    marginLeft: 8,
+                    flex: 6,
+                    justifyContent: 'center',
+                    backgroundColor: '#607D8B',
+                  }}
+                >
+                  <Text>{speed.label}</Text>
+                </Button>
+              ))}
+            </CardItem>
+          </Card>
         </ScrollView>
       </Layout>
     );

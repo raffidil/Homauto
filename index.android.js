@@ -187,7 +187,7 @@ class Home extends React.Component {
           />
           <TextInput
             onChangeText={name => this.setState({ name })}
-            s
+            style={{ width: 250, marginLeft: 20 }}
             clearButtonMode={'always'}
             placeholder={'Name'}
             maxLength={10}

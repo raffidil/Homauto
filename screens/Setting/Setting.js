@@ -58,7 +58,7 @@ export default class Setting extends React.Component {
           backButtonClose
           style={{
             height: 440,
-            width: 340,
+            width: '95%',
           }}
           animationDuration={200}
           position={'center'}

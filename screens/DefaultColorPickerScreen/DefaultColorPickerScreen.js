@@ -29,13 +29,13 @@ export default class DefaultColorPickerScreen extends React.Component {
           <CardItem>
             <Text>Pick a Default Color for {device.name}</Text>
           </CardItem>
-          <CardItem>
+          <CardItem style={{ justifyContent: 'center', alignItems: 'center' }}>
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <ColorPicker
               defaultColor="#00ffeb"
               onColorSelected={color =>
                 fetch(`http://${device.ip}/default=${color.substr(1, 6)}`)}
-              style={{ width: 330, height: 330 }}
+              style={{ width: 300, height: 300 }}
             />
           </View>
           </CardItem>

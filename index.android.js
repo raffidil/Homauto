@@ -172,7 +172,7 @@ class Home extends React.Component {
           style={{
             justifyContent: 'center',
             height: 200,
-            width: 300,
+            width: '85%',
           }}
           position={'center'}
           ref={r => (this.modal = r)}
@@ -181,13 +181,13 @@ class Home extends React.Component {
           <TextInput
             onChangeText={ip => this.setState({ ip })}
             value={this.state.ip}
-            style={{ width: 250, marginLeft: 20 }}
+            style={{ width: '85%', marginLeft: 20 }}
             clearButtonMode={'always'}
             placeholder={'Device code'}
           />
           <TextInput
             onChangeText={name => this.setState({ name })}
-            style={{ width: 250, marginLeft: 20 }}
+            style={{ width: '85%', marginLeft: 20 }}
             clearButtonMode={'always'}
             placeholder={'Name'}
             maxLength={10}
@@ -278,6 +278,7 @@ class Home extends React.Component {
                     <Button
                       backgroundColor="#607D8B"
                       small
+                      style={{ flex: 2, marginRight: 5 }}
                       iconLeft
                       borderRadius={15}
                       onPress={() =>

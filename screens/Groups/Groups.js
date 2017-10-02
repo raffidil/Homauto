@@ -84,7 +84,7 @@ export default class Groups extends React.Component {
           style={{
             justifyContent: 'center',
             height: 150,
-            width: 300,
+            width: '85%',
           }}
           animationDuration={200}
           position={'center'}
@@ -96,7 +96,7 @@ export default class Groups extends React.Component {
             maxLength={10}
             onChangeText={name => this.setState({ name })}
             value={this.state.name}
-            style={{ width: 260, marginLeft: 20, marginTop: 10 }}
+            style={{ width: '85%', marginLeft: 20, marginTop: 10 }}
             clearButtonMode={'always'}
             placeholder={'New Group Name'}
           />
@@ -120,8 +120,8 @@ export default class Groups extends React.Component {
         <Modal
           backButtonClose
           style={{
-            height: 440,
-            width: 340,
+            height: '77%',
+            width: '95%',
           }}
           animationDuration={200}
           position={'center'}
@@ -132,7 +132,7 @@ export default class Groups extends React.Component {
             <Text style={{ marginLeft: 20, marginTop: 15 }}>
               Select lights to group
             </Text>
-            <ScrollView>
+            <ScrollView style={{height: '77%'}}>
               {this.state.devices &&
                 this.state.devices.map((device, index) => (
                   <ListItem icon style={{ marginTop: 10 }} key={device.ip}>
@@ -156,17 +156,11 @@ export default class Groups extends React.Component {
                   </ListItem>
                 ))}
             </ScrollView>
-            <View
-              style={{
-                position: 'absolute',
-                top: 375,
-                right: 0,
-              }}
-            >
+
               <View
                 style={{
                   flexDirection: 'row',
-                  marginBottom: -10,
+                  marginBottom: 10,
                   marginTop: 10,
                   alignSelf: 'flex-end',
                   marginRight: 10,
@@ -181,7 +175,8 @@ export default class Groups extends React.Component {
                   <Text style={{ color: 'teal', fontWeight: 'bold' }}>ADD</Text>
                 </Button>
               </View>
-            </View>
+
+
           </List>
         </Modal>
         <List>

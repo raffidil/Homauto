@@ -40,15 +40,15 @@ export default class OptionScreen extends React.Component {
     const Speeds = [
       {
         label: '1',
-        rainbow: 10,
-        allrainbow: 2,
-        combineSpeed: 15,
+        rainbow: 200,
+        allrainbow: 30,
+        combineSpeed: 99,
       },
       {
         label: '2',
-        rainbow: 25,
-        allrainbow: 7,
-        combineSpeed: 35,
+        rainbow: 110,
+        allrainbow: 20,
+        combineSpeed: 75,
       },
       {
         label: '3',
@@ -58,15 +58,15 @@ export default class OptionScreen extends React.Component {
       },
       {
         label: '4',
-        rainbow: 110,
-        allrainbow: 20,
-        combineSpeed: 75,
+        rainbow: 25,
+        allrainbow: 7,
+        combineSpeed: 35,
       },
       {
         label: '5',
-        rainbow: 200,
-        allrainbow: 30,
-        combineSpeed: 99,
+        rainbow: 10,
+        allrainbow: 2,
+        combineSpeed: 15,
       },
     ];
     const FireColors = [

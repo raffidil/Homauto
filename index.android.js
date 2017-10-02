@@ -20,9 +20,9 @@ import About from './screens/About/About';
 import Groups from './screens/Groups/Groups';
 import Notifications from './screens/Notifications/Notifications';
 import DefaultColor from './screens/DefaultColor/DefaultColor';
-import { getDevices, saveToDatabase } from './db';
+import { getDevices, getGroups, saveToDatabase } from './db';
 import Snackbar from 'react-native-snackbar';
-import NotificationsService from './notifications'
+import NotificationsService from './notifications';
 
 class Home extends React.Component {
   constructor(props) {
@@ -31,27 +31,41 @@ class Home extends React.Component {
       ip: '',
       name: '',
       devices: [],
+      groups: [],
     };
   }
 
   componentWillMount() {
     getDevices().then(devices => this.setState({ devices }));
+    getGroups().then(groups => this.setState({ groups }));
   }
 
   props: {
     navigation: any,
   };
 
-  changeColor = (color, ip) => {
-    const url = `http://${ip}/hex=${color}`;
-    fetch(url);
+  changeColor = (color, groupOrDevice) => {
+    if (groupOrDevice.type === 'device') {
+      const url = `http://${groupOrDevice.ip}/hex=${color}`;
+      fetch(url);
+    } else if (groupOrDevice.type === 'group') {
+      groupOrDevice.ips.forEach(ip => fetch(`http://${ip}/hex=${color}`));
+    }
   };
 
-  toggleCard = index => {
-    const { devices } = this.state;
-    const device = devices[index];
-    device.cardOpen = !device.cardOpen;
-    this.setState({ devices }, () => saveToDatabase({ devices }));
+  toggleCard = deviceOrGroup => {
+    const { devices, groups } = this.state;
+    deviceOrGroup.cardOpen = !deviceOrGroup.cardOpen;
+
+    if (deviceOrGroup.type === 'device') {
+      devices[deviceOrGroup.index] = deviceOrGroup;
+    } else {
+      groups[deviceOrGroup.index] = deviceOrGroup;
+    }
+
+    this.setState({ devices, groups }, () =>
+      saveToDatabase({ devices, groups })
+    );
   };
 
   static navigationOptions = {
@@ -59,8 +73,12 @@ class Home extends React.Component {
     drawerIcon: () => <Icon name="home" />,
   };
 
-  stop = ip => {
-    fetch(`http://${ip}/stop`);
+  stop = groupOrDevice => {
+    if (groupOrDevice.type === 'device') {
+      fetch(`http://${groupOrDevice.ip}/stop`);
+    } else if (groupOrDevice.type === 'group') {
+      groupOrDevice.ips.forEach(ip => fetch(`http://${ip}/stop`));
+    }
   };
 
   addDevice = () => {
@@ -75,10 +93,10 @@ class Home extends React.Component {
         duration: Snackbar.LENGTH_INDEFINITE,
         backgroundColor: '#E53935',
         action: {
-              title: 'CLOSE',
-              onPress: () => Snackbar.dismiss(),
-              color: 'white',
-            },
+          title: 'CLOSE',
+          onPress: () => Snackbar.dismiss(),
+          color: 'white',
+        },
       });
     } else {
       devices.push({
@@ -131,6 +149,11 @@ class Home extends React.Component {
         lightColor: 'FF0000',
       },
     ];
+
+    const { devices, groups } = this.state;
+    const devicesAndGroups = devices
+      .map((d, index) => ({ ...d, type: 'device', index }))
+      .concat(groups.map((g, index) => ({ ...g, type: 'group', index })));
 
     return (
       <Layout
@@ -192,37 +215,45 @@ class Home extends React.Component {
           <Text style={{ color: '#9E9E9E', marginTop: 7, marginLeft: 10 }}>
             Device List
           </Text>
-          {this.state.devices &&
-            this.state.devices.map((device, index) => (
+          {devicesAndGroups &&
+            devicesAndGroups.map((device, index) => (
               <Card
-                key={device.ip}
+                key={index}
                 style={{ marginTop: 10, marginLeft: 5, marginRight: 5 }}
               >
-                <TouchableHighlight onPress={() => this.toggleCard(index)}>
-                  <CardItem style={{backgroundColor: '#F5F5F5'}}>
+                <TouchableHighlight onPress={() => this.toggleCard(device)}>
+                  <CardItem style={{ backgroundColor: '#F5F5F5' }}>
                     <Left>
-                      <Icon name="lightbulb-outline" />
+                      {device.type === 'device' && (
+                        <Icon name="lightbulb-outline" />
+                      )}
+                      {device.type === 'group' && (
+                        <Icon name="group-work" type="materialicon" />
+                      )}
                       <Body>
                         <Text>{device.name}</Text>
-                        <Text note>Light</Text>
+                        <Text note>
+                          {device.type === 'device' && 'Light'}
+                          {device.type === 'group' && 'Group'}
+                        </Text>
                       </Body>
                     </Left>
                     <Right>
-                      <Button transparent onPress={() => this.stop(device.ip)}>
+                      <Button transparent onPress={() => this.stop(device)}>
                         <Icon color="gray" name="power-settings-new" />
                       </Button>
                     </Right>
                   </CardItem>
                 </TouchableHighlight>
                 <View style={{ display: device.cardOpen ? 'flex' : 'none' }}>
-                  <CardItem style={{backgroundColor: '#F5F5F5'}}>
+                  <CardItem style={{ backgroundColor: '#F5F5F5' }}>
                     {colors.map(color => (
                       <Button
                         small
                         borderRadius={15}
                         key={color.backgroundColor}
                         onPress={() =>
-                          this.changeColor(color.lightColor, device.ip)}
+                          this.changeColor(color.lightColor, device)}
                         style={{
                           backgroundColor: color.backgroundColor,
                           marginLeft: 8,
@@ -231,23 +262,18 @@ class Home extends React.Component {
                       />
                     ))}
                   </CardItem>
-                  <CardItem style={{backgroundColor: '#F5F5F5'}}>
+                  <CardItem style={{ backgroundColor: '#F5F5F5' }}>
                     <Button
                       backgroundColor="#607D8B"
                       small
-                      style={{flex:2,marginRight: 5}}
+                      style={{ flex: 2, marginRight: 5 }}
                       iconLeft
                       borderRadius={15}
                       onPress={() =>
                         this.props.navigation.navigate('OptionScreen', device)}
                     >
-
-                      <Icon
-                        name="ios-options"
-                        type="ionicon"
-                        color="#ffffff"
-                      />
-                    <Text style={{marginRight: 10}}>Advanced</Text>
+                      <Icon name="ios-options" type="ionicon" color="#ffffff" />
+                      <Text style={{ marginRight: 10 }}>Advanced</Text>
                     </Button>
                     <Button
                       backgroundColor="#607D8B"
@@ -255,14 +281,17 @@ class Home extends React.Component {
                       iconLeft
                       borderRadius={15}
                       onPress={() =>
-                        this.props.navigation.navigate('ColorPickerScreen', device)}
+                        this.props.navigation.navigate(
+                          'ColorPickerScreen',
+                          device
+                        )}
                     >
                       <Icon
                         name="md-color-palette"
                         type="ionicon"
                         color="#ffffff"
                       />
-                    <Text style={{marginLeft: 10}}>Color Picker</Text>
+                      <Text style={{ marginLeft: 10 }}>Color Picker</Text>
                     </Button>
                   </CardItem>
                 </View>
@@ -327,6 +356,8 @@ const ModalStack = StackNavigator(
   { headerMode: 'none', mode: 'modal' }
 );
 
-
-AppRegistry.registerHeadlessTask('NeoLightNotificationListener', () => NotificationsService);
+AppRegistry.registerHeadlessTask(
+  'NeoLightNotificationListener',
+  () => NotificationsService
+);
 AppRegistry.registerComponent('Homauto', () => ModalStack);

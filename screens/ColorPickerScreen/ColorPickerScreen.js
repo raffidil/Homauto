@@ -10,8 +10,12 @@ export default class ColorPickerScreen extends React.Component {
     navigation: any,
   };
 
-  stop = ip => {
-    fetch(`http://${ip}/stop`);
+  apply = (groupOrDevice, command) => {
+    if (groupOrDevice.type === 'device') {
+      fetch(`http://${groupOrDevice.ip}${command}`);
+    } else if (groupOrDevice.type === 'group') {
+      groupOrDevice.ips.forEach(ip => fetch(`http://${ip}${command}`));
+    }
   };
 
   render() {
@@ -24,31 +28,38 @@ export default class ColorPickerScreen extends React.Component {
         RightMenuDisable={true}
         RightIconName="md-arrow-back"
         RightIconType="ionicon"
-        NavigationScreen="DrawerOpen">
+        NavigationScreen="DrawerOpen"
+      >
         <Card style={{ marginTop: 10, marginLeft: 5, marginRight: 5 }}>
           <CardItem>
             <Left>
-              <Icon name="lightbulb-outline" />
+              {device.type === 'device' && <Icon name="lightbulb-outline" />}
+              {device.type === 'group' && (
+                <Icon name="group-work" type="materialicon" />
+              )}
               <Body>
                 <Text>{device.name}</Text>
-                <Text note>Light</Text>
+                <Text note>
+                  {device.type === 'device' && 'Light'}
+                  {device.type === 'group' && 'Group'}
+                </Text>
               </Body>
             </Left>
             <Right>
-              <Button transparent onPress={() => this.stop(device.ip)}>
+              <Button transparent onPress={() => this.apply(device, '/stop')}>
                 <Icon color="gray" name="power-settings-new" />
               </Button>
             </Right>
           </CardItem>
           <CardItem>
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <ColorPicker
-              defaultColor="#00ffeb"
-              onColorSelected={color =>
-                fetch(`http://${device.ip}/hex=${color.substr(1, 6)}`)}
-              style={{ width: 330, height: 330 }}
-            />
-          </View>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <ColorPicker
+                defaultColor="#00ffeb"
+                onColorSelected={color =>
+                  this.apply(device, `/hex=${color.substr(1, 6)}`)}
+                style={{ width: 330, height: 330 }}
+              />
+            </View>
           </CardItem>
         </Card>
       </Layout>

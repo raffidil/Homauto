@@ -234,17 +234,17 @@ export default class OptionScreen extends React.Component {
                 <Button
                   small
                   borderRadius={3}
-                  onPress={() => this.apply(device, `/fire`)}
+                  onPress={() => this.apply(device, `/fireE27923010113`)}
                   backgroundColor="#00838f"
                 >
                   <Text>Apply</Text>
                 </Button>
               </Right>
             </CardItem>
+          {/*<CardItem>
             <Text note style={{ marginLeft: 25 }}>
               Color
             </Text>
-            <CardItem>
               {FireColors.map(color => (
                 <Button
                   small
@@ -258,7 +258,7 @@ export default class OptionScreen extends React.Component {
                   }}
                 />
               ))}
-            </CardItem>
+            </CardItem>*/}
           </Card>
           <Card
             style={{ marginTop: 0, marginLeft: 5, marginRight: 5, height: 67 }}
